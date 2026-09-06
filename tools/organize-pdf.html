@@ -8,213 +8,23 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
-    <title>Organize PDF - PDFfun</title>
+    <title>Organize PDF Online Free – Rearrange PDF Pages | PDFfun</title>
 
     <meta name="description"
-          content="Reorder, rotate and delete PDF pages online with PDFfun.">
+          content="Organize PDF pages online for free with PDFfun. Rearrange, delete and rotate PDF pages easily and download your organized document.">
+
+    <meta name="robots"
+          content="index, follow">
+
+    <link rel="canonical"
+          href="https://pdffun.pdffun-online.workers.dev/tools/organize-pdf.html">
 
     <link rel="stylesheet"
           href="../css/style.css">
 
-    <style>
-
-        .organize-container {
-            max-width: 1100px;
-            margin: 50px auto;
-            padding: 20px;
-        }
-
-        .organize-container h1 {
-            text-align: center;
-            margin-bottom: 10px;
-        }
-
-        .description {
-            text-align: center;
-            color: #687184;
-            margin-bottom: 30px;
-        }
-
-        .upload-area {
-            display: block;
-            border: 2px dashed #d8dde6;
-            border-radius: 15px;
-            padding: 45px 20px;
-            text-align: center;
-            background: #fafbfc;
-            cursor: pointer;
-        }
-
-        .upload-area:hover {
-            border-color: #e63946;
-        }
-
-        .upload-area input {
-            display: none;
-        }
-
-        .upload-icon {
-            font-size: 42px;
-            margin-bottom: 12px;
-        }
-
-        .file-name {
-            text-align: center;
-            margin: 18px 0;
-            font-weight: 600;
-        }
-
-        .pages-grid {
-            display: grid;
-            grid-template-columns:
-                repeat(auto-fill, minmax(180px, 1fr));
-
-            gap: 20px;
-            margin-top: 30px;
-        }
-
-        .page-card {
-            position: relative;
-            background: white;
-            border: 1px solid #dfe3e9;
-            border-radius: 12px;
-            padding: 12px;
-            cursor: grab;
-            transition: 0.2s;
-        }
-
-        .page-card:hover {
-            border-color: #e63946;
-            box-shadow:
-                0 8px 25px
-                rgba(20, 30, 50, 0.08);
-        }
-
-        .page-card.dragging {
-            opacity: 0.4;
-        }
-
-        .page-preview {
-            width: 100%;
-            height: 220px;
-            object-fit: contain;
-            background: #f3f5f7;
-            border-radius: 8px;
-            display: block;
-        }
-
-        .page-number {
-            text-align: center;
-            margin-top: 8px;
-            font-size: 13px;
-            font-weight: 700;
-        }
-
-        .page-actions {
-            display: flex;
-            gap: 7px;
-            margin-top: 10px;
-        }
-
-.page-actions button {
-    flex: 1;
-    border: 1px solid #d8dde6;
-    background: white;
-    border-radius: 7px;
-    padding: 8px 5px;
-    cursor: pointer;
-    font-size: 12px;
-    font-weight: 600;
-    transition: 0.2s;
-}
-
-.page-actions button:hover {
-    border-color: #e63946;
-    color: #e63946;
-}
-
-.page-card {
-    user-select: none;
-}
-
-.page-card.dragging {
-    opacity: 0.45;
-    transform: scale(0.97);
-}
-
-.page-preview {
-    transition: 0.25s;
-}
-
-        .page-actions button:hover {
-            border-color: #e63946;
-            color: #e63946;
-        }
-
-        .delete-page {
-            color: #d62828;
-        }
-
-        .controls {
-            display: flex;
-            gap: 12px;
-            justify-content: center;
-            margin-top: 35px;
-        }
-
-        .controls button {
-            padding: 13px 25px;
-            border-radius: 9px;
-            border: none;
-            font-weight: 700;
-            cursor: pointer;
-        }
-
-        .download-button {
-            background: #e63946;
-            color: white;
-        }
-
-        .download-button:disabled {
-            background: #b9bec8;
-            cursor: not-allowed;
-        }
-
-        .clear-button {
-            background: #eef1f5;
-            color: #293247;
-        }
-
-        .status {
-            text-align: center;
-            margin-top: 20px;
-            color: #687184;
-        }
-
-        .error {
-            color: #d62828;
-        }
-
-        @media (max-width: 600px) {
-
-            .pages-grid {
-                grid-template-columns:
-                    repeat(2, 1fr);
-
-                gap: 12px;
-            }
-
-            .page-preview {
-                height: 170px;
-            }
-
-            .controls {
-                flex-direction: column;
-            }
-
-        }
-
-    </style>
+    <link rel="icon"
+          type="image/svg+xml"
+          href="../favicon.svg">
 
 </head>
 
