@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Watermark PDF - PDFfun</title>
+
+    <meta name="description"
+          content="Add a text watermark to every page of a PDF with PDFfun.">
+
+    <link rel="stylesheet"
+          href="../css/style.css">
+
+    <style>
+
+        .watermark-container {
+            max-width: 750px;
+            margin: 60px auto;
+            padding: 20px;
+        }
+
+        .watermark-container h1 {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .description {
+            text-align: center;
+            color: #687184;
+            margin-bottom: 35px;
+        }
+
+        .upload-area {
+            border: 2px dashed #d8dde6;
+            border-radius: 15px;
+            padding: 45px 20px;
+            text-align: center;
+            background: #fafbfc;
+            cursor: pointer;
+        }
+
+        .upload-area:hover {
+            border-color: #e63946;
+        }
+
+        .upload-area input {
+            display: none;
+        }
+
+        .upload-icon {
+            font-size: 42px;
+            margin-bottom: 15px;
+        }
+
+        .file-name {
+            text-align: center;
+            margin-top: 18px;
+            font-weight: 600;
+        }
+
+        .settings {
+            margin-top: 25px;
+            padding: 25px;
+            border: 1px solid #e3e7ed;
+            border-radius: 12px;
+            background: white;
+        }
+
+        .setting {
+            margin-bottom: 20px;
+        }
+
+        .setting:last-child {
+            margin-bottom: 0;
+        }
+
+        .setting label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .setting input,
+        .setting select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d8dde6;
+            border-radius: 8px;
+            outline: none;
+        }
+
+        .setting input:focus,
+        .setting select:focus {
+            border-color: #e63946;
+        }
+
+        .range-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .range-row input {
+            padding: 0;
+        }
+
+        .range-value {
+            min-width: 45px;
+            font-weight: 700;
+        }
+
+        .watermark-button {
+            width: 100%;
+            margin-top: 25px;
+            padding: 15px;
+            border: none;
+            border-radius: 9px;
+            background: #e63946;
+            color: white;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .watermark-button:disabled {
+            background: #b9bec8;
+            cursor: not-allowed;
+        }
+
+        .status {
+            text-align: center;
+            margin-top: 20px;
+            color: #687184;
+        }
+
+        .error {
+            color: #d62828;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header class="header">
+
+    <div class="header-inner">
+
+        <a href="../index.html"
+           class="brand">
+
+            <span class="logo-icon">
+                PDF
+            </span>
+
+            <span>
+                PDF<span class="logo-highlight">fun</span>
+            </span>
+
+        </a>
+
+
+        <nav class="navigation">
+
+            <a href="../index.html">
+                Home
+            </a>
+
+            <a href="../index.html#tools">
+                PDF Tools
+            </a>
+
+            <a href="../index.html#how-it-works">
+                How It Works
+            </a>
+
+            <a href="../index.html#faq">
+                FAQ
+            </a>
+
+        </nav>
+
+    </div>
+
+</header>
+
+
+
+<main class="watermark-container">
+
+
+    <h1>
+        Watermark PDF
+    </h1>
+
+
+    <p class="description">
+        Add a text watermark to every page of your PDF.
+    </p>
+
+
+
+    <label class="upload-area">
+
+        <div class="upload-icon">
+            💧
+        </div>
+
+        <strong>
+            Select a PDF
+        </strong>
+
+        <p>
+            Click here to choose your PDF file
+        </p>
+
+
+        <input
+            type="file"
+            id="pdfFile"
+            accept=".pdf"
+        >
+
+    </label>
+
+
+
+    <div
+        class="file-name"
+        id="fileName">
+    </div>
+
+
+
+    <div class="settings">
+
+
+        <div class="setting">
+
+            <label for="watermarkText">
+                Watermark Text
+            </label>
+
+            <input
+                type="text"
+                id="watermarkText"
+                placeholder="Example: PDFfun"
+                value="PDFfun"
+            >
+
+        </div>
+
+
+
+        <div class="setting">
+
+            <label for="position">
+                Position
+            </label>
+
+            <select id="position">
+
+                <option value="center">
+                    Center
+                </option>
+
+                <option value="top">
+                    Top
+                </option>
+
+                <option value="bottom">
+                    Bottom
+                </option>
+
+                <option value="top-left">
+                    Top Left
+                </option>
+
+                <option value="top-right">
+                    Top Right
+                </option>
+
+                <option value="bottom-left">
+                    Bottom Left
+                </option>
+
+                <option value="bottom-right">
+                    Bottom Right
+                </option>
+
+            </select>
+
+        </div>
+
+
+
+        <div class="setting">
+
+            <label for="fontSize">
+                Font Size
+            </label>
+
+            <input
+                type="number"
+                id="fontSize"
+                value="40"
+                min="10"
+                max="150"
+            >
+
+        </div>
+
+
+
+        <div class="setting">
+
+            <label>
+                Opacity
+            </label>
+
+            <div class="range-row">
+
+                <input
+                    type="range"
+                    id="opacity"
+                    min="0.1"
+                    max="1"
+                    step="0.1"
+                    value="0.3"
+                >
+
+                <span
+                    class="range-value"
+                    id="opacityValue">
+                    30%
+                </span>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+
+    <button
+        class="watermark-button"
+        id="watermarkButton"
+        disabled>
+
+        Add Watermark
+
+    </button>
+
+
+
+    <div
+        class="status"
+        id="status">
+    </div>
+
+
+</main>
+
+
+
+<script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js">
+</script>
+
+
+
+<script>
+
+const pdfFile =
+    document.getElementById("pdfFile");
+
+const fileName =
+    document.getElementById("fileName");
+
+const watermarkText =
+    document.getElementById("watermarkText");
+
+const position =
+    document.getElementById("position");
+
+const fontSize =
+    document.getElementById("fontSize");
+
+const opacity =
+    document.getElementById("opacity");
+
+const opacityValue =
+    document.getElementById("opacityValue");
+
+const watermarkButton =
+    document.getElementById("watermarkButton");
+
+const status =
+    document.getElementById("status");
+
+
+let selectedFile = null;
+
+
+/* FILE SELECTION */
+
+pdfFile.addEventListener(
+    "change",
+    function () {
+
+        if (!this.files.length) {
+            return;
+        }
+
+        selectedFile = this.files[0];
+
+        fileName.textContent =
+            "Selected: " + selectedFile.name;
+
+        watermarkButton.disabled = false;
+
+        status.textContent = "";
+
+    }
+);
+
+
+/* OPACITY DISPLAY */
+
+opacity.addEventListener(
+    "input",
+    function () {
+
+        opacityValue.textContent =
+            Math.round(
+                this.value * 100
+            ) + "%";
+
+    }
+);
+
+
+/* ADD WATERMARK */
+
+watermarkButton.addEventListener(
+    "click",
+    async function () {
+
+        if (!selectedFile) {
+            return;
+        }
+
+
+        const text =
+            watermarkText.value.trim();
+
+
+        if (!text) {
+
+            status.className =
+                "status error";
+
+            status.textContent =
+                "Please enter watermark text.";
+
+            return;
+
+        }
+
+
+        watermarkButton.disabled = true;
+
+        status.className =
+            "status";
+
+        status.textContent =
+            "Adding watermark...";
+
+
+        try {
+
+            const bytes =
+                await selectedFile.arrayBuffer();
+
+
+            const pdfDoc =
+                await PDFLib.PDFDocument.load(
+                    bytes
+                );
+
+
+            const pages =
+                pdfDoc.getPages();
+
+
+            const font =
+                await pdfDoc.embedFont(
+                    PDFLib.StandardFonts.Helvetica
+                );
+
+
+            const size =
+                Number(fontSize.value);
+
+
+            const opacityValue =
+                Number(opacity.value);
+
+
+            for (
+                const page of pages
+            ) {
+
+                const {
+                    width,
+                    height
+                } = page.getSize();
+
+
+                const textWidth =
+                    font.widthOfTextAtSize(
+                        text,
+                        size
+                    );
+
+
+                const textHeight =
+                    font.heightAtSize(
+                        size
+                    );
+
+
+                let x;
+                let y;
+
+
+                const margin = 20;
+
+
+                switch (
+                    position.value
+                ) {
+
+                    case "top":
+
+                        x =
+                            (width - textWidth) / 2;
+
+                        y =
+                            height - size - margin;
+
+                        break;
+
+
+                    case "bottom":
+
+                        x =
+                            (width - textWidth) / 2;
+
+                        y =
+                            margin;
+
+                        break;
+
+
+                    case "top-left":
+
+                        x = margin;
+
+                        y =
+                            height - size - margin;
+
+                        break;
+
+
+                    case "top-right":
+
+                        x =
+                            width -
+                            textWidth -
+                            margin;
+
+                        y =
+                            height - size - margin;
+
+                        break;
+
+
+                    case "bottom-left":
+
+                        x = margin;
+
+                        y = margin;
+
+                        break;
+
+
+                    case "bottom-right":
+
+                        x =
+                            width -
+                            textWidth -
+                            margin;
+
+                        y = margin;
+
+                        break;
+
+
+                    default:
+
+                        x =
+                            (width - textWidth) / 2;
+
+                        y =
+                            (height - textHeight) / 2;
+
+                }
+
+
+                page.drawText(
+                    text,
+                    {
+                        x: x,
+                        y: y,
+
+                        size: size,
+
+                        font: font,
+
+                        color:
+                            PDFLib.rgb(
+                                0.45,
+                                0.45,
+                                0.45
+                            ),
+
+                        opacity:
+                            opacityValue
+                    }
+                );
+
+            }
+
+
+            const output =
+                await pdfDoc.save();
+
+
+            const blob =
+                new Blob(
+                    [output],
+                    {
+                        type:
+                            "application/pdf"
+                    }
+                );
+
+
+            const url =
+                URL.createObjectURL(blob);
+
+
+            const link =
+                document.createElement("a");
+
+
+            link.href = url;
+
+            link.download =
+                "PDFfun-Watermarked.pdf";
+
+
+            link.click();
+
+
+            URL.revokeObjectURL(url);
+
+
+            status.textContent =
+                "Watermark added successfully.";
+
+        }
+
+        catch (error) {
+
+            console.error(error);
+
+            status.className =
+                "status error";
+
+            status.textContent =
+                "Could not add the watermark. Please check that the PDF is valid and not encrypted.";
+
+        }
+
+
+        watermarkButton.disabled = false;
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>

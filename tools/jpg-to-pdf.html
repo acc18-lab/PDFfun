@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>JPG to PDF Online - PDFfun</title>
+
+    <meta name="description"
+          content="Convert JPG and PNG images to PDF online for free with PDFfun. Combine multiple images into one PDF.">
+
+    <link rel="stylesheet"
+          href="../css/style.css">
+
+
+    <style>
+
+        .tool-page {
+            min-height: calc(100vh - 72px);
+
+            padding: 70px 20px;
+
+            background:
+                radial-gradient(
+                    circle at top,
+                    #ffe7df,
+                    transparent 45%
+                ),
+                #fffaf7;
+        }
+
+
+        .tool-container {
+            max-width: 900px;
+
+            margin: auto;
+
+            text-align: center;
+        }
+
+
+        .tool-container h1 {
+            font-size: 48px;
+
+            margin-bottom: 15px;
+        }
+
+
+        .tool-container > p {
+            color: #666;
+
+            font-size: 18px;
+
+            margin-bottom: 35px;
+        }
+
+
+        .upload-box {
+            background: white;
+
+            border: 2px dashed #e63946;
+
+            border-radius: 18px;
+
+            padding: 55px 25px;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+
+        .upload-box:hover {
+            background: #fff5f2;
+        }
+
+
+        .upload-icon {
+            font-size: 50px;
+
+            margin-bottom: 15px;
+        }
+
+
+        .upload-box h2 {
+            margin-bottom: 8px;
+        }
+
+
+        .upload-box p {
+            color: #777;
+        }
+
+
+        #fileInput {
+            display: none;
+        }
+
+
+        .image-list {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 15px;
+
+            margin-top: 25px;
+        }
+
+
+        .image-item {
+            position: relative;
+
+            background: white;
+
+            border: 1px solid #eee;
+
+            border-radius: 12px;
+
+            padding: 10px;
+
+            text-align: left;
+        }
+
+
+        .image-item img {
+            width: 100%;
+
+            height: 180px;
+
+            object-fit: contain;
+
+            background: #f5f5f5;
+
+            border-radius: 8px;
+
+            display: block;
+        }
+
+
+        .image-name {
+            display: block;
+
+            margin-top: 8px;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            overflow: hidden;
+
+            text-overflow: ellipsis;
+
+            white-space: nowrap;
+        }
+
+
+        .remove-image {
+            position: absolute;
+
+            top: 15px;
+
+            right: 15px;
+
+            border: none;
+
+            background: #e63946;
+
+            color: white;
+
+            width: 30px;
+
+            height: 30px;
+
+            border-radius: 50%;
+
+            cursor: pointer;
+
+            font-weight: bold;
+        }
+
+
+        .options {
+            display: none;
+
+            margin-top: 25px;
+
+            background: white;
+
+            border: 1px solid #eee;
+
+            border-radius: 12px;
+
+            padding: 25px;
+
+            text-align: left;
+        }
+
+
+        .options h3 {
+            margin-bottom: 15px;
+        }
+
+
+        .option-row {
+            display: flex;
+
+            gap: 10px;
+
+            align-items: center;
+
+            margin-bottom: 12px;
+        }
+
+
+        .option-row label {
+            font-weight: 600;
+        }
+
+
+        .option-row select {
+            padding: 9px;
+
+            border: 1px solid #ddd;
+
+            border-radius: 7px;
+
+            font-size: 14px;
+        }
+
+
+        .create-button {
+            margin-top: 30px;
+
+            padding: 15px 35px;
+
+            border: none;
+
+            border-radius: 9px;
+
+            background: #e63946;
+
+            color: white;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+
+        .create-button:hover {
+            background: #c92f3b;
+        }
+
+
+        .create-button:disabled {
+            background: #ccc;
+
+            cursor: not-allowed;
+        }
+
+
+        .status {
+            margin-top: 20px;
+
+            font-weight: 600;
+        }
+
+
+        @media (max-width: 700px) {
+
+            .image-list {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+        }
+
+
+        @media (max-width: 500px) {
+
+            .image-list {
+                grid-template-columns: 1fr;
+            }
+
+            .tool-container h1 {
+                font-size: 40px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- HEADER -->
+
+    <header class="header">
+
+        <div class="logo">
+
+            <span class="logo-icon">
+                P
+            </span>
+
+            <span>
+                PDF<span class="logo-highlight">fun</span>
+            </span>
+
+        </div>
+
+
+        <nav class="navigation">
+
+            <a href="../index.html">
+                Home
+            </a>
+
+            <a href="../index.html#tools">
+                PDF Tools
+            </a>
+
+        </nav>
+
+    </header>
+
+
+    <!-- TOOL -->
+
+    <main class="tool-page">
+
+        <div class="tool-container">
+
+
+            <div class="badge">
+                PDF TOOL
+            </div>
+
+
+            <h1>
+                JPG to PDF
+            </h1>
+
+
+            <p>
+                Convert images into a single PDF document.
+            </p>
+
+
+            <!-- UPLOAD -->
+
+            <div
+                class="upload-box"
+                onclick="document.getElementById('fileInput').click()">
+
+                <div class="upload-icon">
+                    🖼️
+                </div>
+
+
+                <h2>
+                    Select images
+                </h2>
+
+
+                <p>
+                    Choose JPG or PNG images
+                </p>
+
+
+                <input
+                    type="file"
+                    id="fileInput"
+                    accept="image/jpeg,image/png"
+                    multiple>
+
+            </div>
+
+
+            <!-- IMAGE LIST -->
+
+            <div
+                id="imageList"
+                class="image-list">
+            </div>
+
+
+            <!-- OPTIONS -->
+
+            <div
+                id="options"
+                class="options">
+
+                <h3>
+                    PDF options
+                </h3>
+
+
+                <div class="option-row">
+
+                    <label for="pageSize">
+                        Page size:
+                    </label>
+
+
+                    <select id="pageSize">
+
+                        <option value="a4">
+                            A4
+                        </option>
+
+                        <option value="letter">
+                            Letter
+                        </option>
+
+                        <option value="image">
+                            Image size
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="option-row">
+
+                    <label for="orientation">
+                        Orientation:
+                    </label>
+
+
+                    <select id="orientation">
+
+                        <option value="auto">
+                            Automatic
+                        </option>
+
+                        <option value="portrait">
+                            Portrait
+                        </option>
+
+                        <option value="landscape">
+                            Landscape
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <!-- CREATE -->
+
+            <button
+                id="createButton"
+                class="create-button"
+                disabled>
+
+                Create PDF
+
+            </button>
+
+
+            <div
+                id="status"
+                class="status">
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <!-- jsPDF -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js">
+    </script>
+
+
+    <script>
+
+        const {
+            jsPDF
+        } = window.jspdf;
+
+
+        const fileInput =
+            document.getElementById(
+                "fileInput"
+            );
+
+
+        const imageList =
+            document.getElementById(
+                "imageList"
+            );
+
+
+        const options =
+            document.getElementById(
+                "options"
+            );
+
+
+        const createButton =
+            document.getElementById(
+                "createButton"
+            );
+
+
+        const status =
+            document.getElementById(
+                "status"
+            );
+
+
+        let selectedImages = [];
+
+
+        /*
+            FILE SELECTION
+        */
+
+        fileInput.addEventListener(
+            "change",
+            function () {
+
+                const files =
+                    Array.from(
+                        this.files
+                    );
+
+
+                selectedImages =
+                    selectedImages.concat(
+                        files
+                    );
+
+
+                displayImages();
+
+
+                this.value = "";
+
+            }
+        );
+
+
+        /*
+            DISPLAY IMAGES
+        */
+
+        function displayImages() {
+
+            imageList.innerHTML = "";
+
+
+            selectedImages.forEach(
+                (file, index) => {
+
+                    const item =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    item.className =
+                        "image-item";
+
+
+                    const image =
+                        document.createElement(
+                            "img"
+                        );
+
+
+                    image.src =
+                        URL.createObjectURL(
+                            file
+                        );
+
+
+                    const name =
+                        document.createElement(
+                            "span"
+                        );
+
+
+                    name.className =
+                        "image-name";
+
+
+                    name.textContent =
+                        (
+                            index + 1
+                        ) +
+                        ". " +
+                        file.name;
+
+
+                    const remove =
+                        document.createElement(
+                            "button"
+                        );
+
+
+                    remove.className =
+                        "remove-image";
+
+
+                    remove.textContent =
+                        "×";
+
+
+                    remove.title =
+                        "Remove image";
+
+
+                    remove.onclick =
+                        function () {
+
+                            selectedImages.splice(
+                                index,
+                                1
+                            );
+
+
+                            displayImages();
+
+                        };
+
+
+                    item.appendChild(
+                        image
+                    );
+
+
+                    item.appendChild(
+                        name
+                    );
+
+
+                    item.appendChild(
+                        remove
+                    );
+
+
+                    imageList.appendChild(
+                        item
+                    );
+
+                }
+            );
+
+
+            const hasImages =
+                selectedImages.length > 0;
+
+
+            options.style.display =
+                hasImages
+                    ? "block"
+                    : "none";
+
+
+            createButton.disabled =
+                !hasImages;
+
+        }
+
+
+        /*
+            CREATE PDF
+        */
+
+        createButton.addEventListener(
+            "click",
+            async function () {
+
+                if (
+                    selectedImages.length === 0
+                ) {
+                    return;
+                }
+
+
+                createButton.disabled =
+                    true;
+
+
+                status.textContent =
+                    "Creating PDF...";
+
+
+                try {
+
+                    const pageSize =
+                        document.getElementById(
+                            "pageSize"
+                        ).value;
+
+
+                    const orientation =
+                        document.getElementById(
+                            "orientation"
+                        ).value;
+
+
+                    let pdf = null;
+
+
+                    for (
+                        let i = 0;
+                        i < selectedImages.length;
+                        i++
+                    ) {
+
+                        status.textContent =
+                            "Processing image " +
+                            (i + 1) +
+                            " of " +
+                            selectedImages.length +
+                            "...";
+
+
+                        const image =
+                            await loadImage(
+                                selectedImages[i]
+                            );
+
+
+                        const dimensions =
+                            calculatePage(
+                                image,
+                                pageSize,
+                                orientation
+                            );
+
+
+                        if (i === 0) {
+
+                            pdf =
+                                new jsPDF({
+                                    orientation:
+                                        dimensions.orientation,
+
+                                    unit: "mm",
+
+                                    format: [
+                                        dimensions.width,
+                                        dimensions.height
+                                    ]
+                                });
+
+                        }
+
+                        else {
+
+                            pdf.addPage(
+                                [
+                                    dimensions.width,
+                                    dimensions.height
+                                ],
+
+                                dimensions.orientation
+                            );
+
+                        }
+
+
+                        const margin = 8;
+
+
+                        const availableWidth =
+                            dimensions.width -
+                            margin * 2;
+
+
+                        const availableHeight =
+                            dimensions.height -
+                            margin * 2;
+
+
+                        const imageRatio =
+                            image.width /
+                            image.height;
+
+
+                        let imageWidth =
+                            availableWidth;
+
+
+                        let imageHeight =
+                            imageWidth /
+                            imageRatio;
+
+
+                        if (
+                            imageHeight >
+                            availableHeight
+                        ) {
+
+                            imageHeight =
+                                availableHeight;
+
+
+                            imageWidth =
+                                imageHeight *
+                                imageRatio;
+
+                        }
+
+
+                        const x =
+                            (
+                                dimensions.width -
+                                imageWidth
+                            ) / 2;
+
+
+                        const y =
+                            (
+                                dimensions.height -
+                                imageHeight
+                            ) / 2;
+
+
+                        const imageData =
+                            imageToDataURL(
+                                image
+                            );
+
+
+                        pdf.addImage(
+                            imageData,
+                            "JPEG",
+                            x,
+                            y,
+                            imageWidth,
+                            imageHeight,
+                            undefined,
+                            "MEDIUM"
+                        );
+
+                    }
+
+
+                    status.textContent =
+                        "Preparing download...";
+
+
+                    pdf.save(
+                        "PDFfun-Images.pdf"
+                    );
+
+
+                    status.textContent =
+                        "PDF created successfully.";
+
+                }
+
+                catch (error) {
+
+                    console.error(error);
+
+
+                    status.textContent =
+                        "Unable to create the PDF.";
+
+                }
+
+
+                createButton.disabled =
+                    false;
+
+            }
+        );
+
+
+        /*
+            LOAD IMAGE
+        */
+
+        function loadImage(file) {
+
+            return new Promise(
+                (
+                    resolve,
+                    reject
+                ) => {
+
+                    const image =
+                        new Image();
+
+
+                    image.onload =
+                        function () {
+
+                            resolve(image);
+
+                        };
+
+
+                    image.onerror =
+                        reject;
+
+
+                    image.src =
+                        URL.createObjectURL(
+                            file
+                        );
+
+                }
+            );
+
+        }
+
+
+        /*
+            IMAGE TO JPEG
+        */
+
+        function imageToDataURL(
+            image
+        ) {
+
+            const canvas =
+                document.createElement(
+                    "canvas"
+                );
+
+
+            canvas.width =
+                image.width;
+
+
+            canvas.height =
+                image.height;
+
+
+            const context =
+                canvas.getContext(
+                    "2d"
+                );
+
+
+            context.fillStyle =
+                "white";
+
+
+            context.fillRect(
+                0,
+                0,
+                canvas.width,
+                canvas.height
+            );
+
+
+            context.drawImage(
+                image,
+                0,
+                0
+            );
+
+
+            return canvas.toDataURL(
+                "image/jpeg",
+                0.88
+            );
+
+        }
+
+
+        /*
+            CALCULATE PAGE
+        */
+
+        function calculatePage(
+            image,
+            pageSize,
+            orientation
+        ) {
+
+            if (
+                pageSize === "image"
+            ) {
+
+                const width =
+                    image.width /
+                    3.7795;
+
+
+                const height =
+                    image.height /
+                    3.7795;
+
+
+                return {
+                    width,
+                    height,
+                    orientation:
+                        width > height
+                            ? "landscape"
+                            : "portrait"
+                };
+
+            }
+
+
+            let width = 210;
+            let height = 297;
+
+
+            if (
+                pageSize === "letter"
+            ) {
+
+                width = 215.9;
+                height = 279.4;
+
+            }
+
+
+            let finalOrientation;
+
+
+            if (
+                orientation === "automatic"
+                ||
+                orientation === "auto"
+            ) {
+
+                finalOrientation =
+                    image.width >
+                    image.height
+                        ? "landscape"
+                        : "portrait";
+
+            }
+
+            else {
+
+                finalOrientation =
+                    orientation;
+
+            }
+
+
+            if (
+                finalOrientation ===
+                "landscape"
+            ) {
+
+                const temp =
+                    width;
+
+
+                width =
+                    height;
+
+
+                height =
+                    temp;
+
+            }
+
+
+            return {
+                width,
+                height,
+                orientation:
+                    finalOrientation
+            };
+
+        }
+
+    </script>
+
+</body>
+
+</html>

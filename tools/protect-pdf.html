@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Protect PDF Online - PDFfun</title>
+
+    <meta name="description"
+          content="Protect PDF files with a password using PDFfun.">
+
+    <link rel="stylesheet"
+          href="../css/style.css">
+
+
+    <style>
+
+        .tool-page {
+            min-height: calc(100vh - 72px);
+
+            padding: 70px 20px;
+
+            background:
+                radial-gradient(
+                    circle at top,
+                    #ffe7df,
+                    transparent 45%
+                ),
+                #fffaf7;
+        }
+
+
+        .tool-container {
+            max-width: 750px;
+
+            margin: auto;
+
+            text-align: center;
+        }
+
+
+        .tool-container h1 {
+            font-size: 48px;
+
+            margin-bottom: 15px;
+        }
+
+
+        .tool-container > p {
+            color: #666;
+
+            font-size: 18px;
+
+            margin-bottom: 35px;
+        }
+
+
+        .upload-box {
+            background: white;
+
+            border: 2px dashed #e63946;
+
+            border-radius: 18px;
+
+            padding: 55px 25px;
+
+            cursor: pointer;
+        }
+
+
+        .upload-icon {
+            font-size: 50px;
+
+            margin-bottom: 15px;
+        }
+
+
+        .upload-box h2 {
+            margin-bottom: 8px;
+        }
+
+
+        .upload-box p {
+            color: #777;
+        }
+
+
+        #fileInput {
+            display: none;
+        }
+
+
+        .file-info {
+            display: none;
+
+            margin-top: 25px;
+
+            background: white;
+
+            border: 1px solid #eee;
+
+            border-radius: 12px;
+
+            padding: 20px;
+        }
+
+
+        .file-info strong {
+            display: block;
+
+            margin-bottom: 5px;
+        }
+
+
+        .password-box {
+            display: none;
+
+            margin-top: 20px;
+
+            background: white;
+
+            border: 1px solid #eee;
+
+            border-radius: 12px;
+
+            padding: 25px;
+
+            text-align: left;
+        }
+
+
+        .password-box h3 {
+            margin-bottom: 15px;
+        }
+
+
+        .password-field {
+            margin-bottom: 15px;
+        }
+
+
+        .password-field label {
+            display: block;
+
+            font-weight: 700;
+
+            margin-bottom: 7px;
+        }
+
+
+        .password-field input {
+            width: 100%;
+
+            padding: 13px;
+
+            border: 1px solid #ddd;
+
+            border-radius: 8px;
+
+            font-size: 16px;
+
+            outline: none;
+        }
+
+
+        .password-field input:focus {
+            border-color: #e63946;
+        }
+
+
+        .password-hint {
+            color: #777;
+
+            font-size: 13px;
+
+            margin-top: 8px;
+        }
+
+
+        .protect-button {
+            margin-top: 25px;
+
+            padding: 15px 35px;
+
+            border: none;
+
+            border-radius: 9px;
+
+            background: #e63946;
+
+            color: white;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+
+        .protect-button:hover {
+            background: #c92f3b;
+        }
+
+
+        .protect-button:disabled {
+            background: #ccc;
+
+            cursor: not-allowed;
+        }
+
+
+        .status {
+            margin-top: 20px;
+
+            font-weight: 600;
+        }
+
+
+        .security-note {
+            margin-top: 25px;
+
+            padding: 15px;
+
+            background: #fff0ed;
+
+            border-radius: 10px;
+
+            color: #666;
+
+            font-size: 14px;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- HEADER -->
+
+<header class="header">
+
+    <div class="logo">
+
+        <span class="logo-icon">
+            P
+        </span>
+
+        <span>
+            PDF<span class="logo-highlight">fun</span>
+        </span>
+
+    </div>
+
+
+    <nav class="navigation">
+
+        <a href="../index.html">
+            Home
+        </a>
+
+        <a href="../index.html#tools">
+            PDF Tools
+        </a>
+
+    </nav>
+
+</header>
+
+
+
+<!-- TOOL -->
+
+<main class="tool-page">
+
+    <div class="tool-container">
+
+
+        <div class="badge">
+            PDF TOOL
+        </div>
+
+
+        <h1>
+            Protect PDF
+        </h1>
+
+
+        <p>
+            Add password protection to your PDF file.
+        </p>
+
+
+        <!-- UPLOAD -->
+
+        <div
+            class="upload-box"
+            onclick="document.getElementById('fileInput').click()">
+
+            <div class="upload-icon">
+                🔒
+            </div>
+
+
+            <h2>
+                Select a PDF file
+            </h2>
+
+
+            <p>
+                Click here to choose your PDF
+            </p>
+
+
+            <input
+                type="file"
+                id="fileInput"
+                accept=".pdf,application/pdf">
+
+        </div>
+
+
+        <!-- FILE INFO -->
+
+        <div
+            id="fileInfo"
+            class="file-info">
+
+            <strong id="fileName"></strong>
+
+            <span id="fileSize"></span>
+
+        </div>
+
+
+        <!-- PASSWORD -->
+
+        <div
+            id="passwordBox"
+            class="password-box">
+
+            <h3>
+                Create a PDF password
+            </h3>
+
+
+            <div class="password-field">
+
+                <label for="password">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Enter password">
+
+            </div>
+
+
+            <div class="password-field">
+
+                <label for="confirmPassword">
+                    Confirm password
+                </label>
+
+                <input
+                    type="password"
+                    id="confirmPassword"
+                    placeholder="Enter password again">
+
+            </div>
+
+
+            <p class="password-hint">
+                Use a strong password with letters, numbers and symbols.
+            </p>
+
+        </div>
+
+
+        <!-- BUTTON -->
+
+        <button
+            id="protectButton"
+            class="protect-button"
+            disabled>
+
+            Protect PDF
+
+        </button>
+
+
+        <div
+            id="status"
+            class="status">
+        </div>
+
+
+        <div class="security-note">
+
+            🔐 Your selected PDF will be processed in your browser
+            where supported. Never share your PDF password with anyone.
+
+        </div>
+
+    </div>
+
+</main>
+
+
+
+<script>
+
+    const fileInput =
+        document.getElementById(
+            "fileInput"
+        );
+
+
+    const fileInfo =
+        document.getElementById(
+            "fileInfo"
+        );
+
+
+    const fileName =
+        document.getElementById(
+            "fileName"
+        );
+
+
+    const fileSize =
+        document.getElementById(
+            "fileSize"
+        );
+
+
+    const passwordBox =
+        document.getElementById(
+            "passwordBox"
+        );
+
+
+    const password =
+        document.getElementById(
+            "password"
+        );
+
+
+    const confirmPassword =
+        document.getElementById(
+            "confirmPassword"
+        );
+
+
+    const protectButton =
+        document.getElementById(
+            "protectButton"
+        );
+
+
+    const status =
+        document.getElementById(
+            "status"
+        );
+
+
+    let selectedFile = null;
+
+
+    /*
+        FILE SELECTION
+    */
+
+    fileInput.addEventListener(
+        "change",
+        function () {
+
+            const file =
+                this.files[0];
+
+
+            if (!file) {
+                return;
+            }
+
+
+            selectedFile =
+                file;
+
+
+            fileName.textContent =
+                file.name;
+
+
+            fileSize.textContent =
+                "File size: " +
+                formatFileSize(
+                    file.size
+                );
+
+
+            fileInfo.style.display =
+                "block";
+
+
+            passwordBox.style.display =
+                "block";
+
+
+            protectButton.disabled =
+                false;
+
+
+            status.textContent =
+                "";
+
+        }
+    );
+
+
+    /*
+        PROTECT BUTTON
+    */
+
+    protectButton.addEventListener(
+        "click",
+        function () {
+
+            if (!selectedFile) {
+                return;
+            }
+
+
+            const passwordValue =
+                password.value;
+
+
+            const confirmValue =
+                confirmPassword.value;
+
+
+            if (!passwordValue) {
+
+                alert(
+                    "Please enter a password."
+                );
+
+                password.focus();
+
+                return;
+
+            }
+
+
+            if (
+                passwordValue.length < 6
+            ) {
+
+                alert(
+                    "Please use a password with at least 6 characters."
+                );
+
+                password.focus();
+
+                return;
+
+            }
+
+
+            if (
+                passwordValue !==
+                confirmValue
+            ) {
+
+                alert(
+                    "The passwords do not match."
+                );
+
+                confirmPassword.focus();
+
+                return;
+
+            }
+
+
+            /*
+                REAL PDF ENCRYPTION
+                WILL BE CONNECTED NEXT.
+            */
+
+            status.textContent =
+                "Password validated. PDF encryption engine will be connected next.";
+
+        }
+    );
+
+
+    /*
+        FILE SIZE
+    */
+
+    function formatFileSize(bytes) {
+
+        if (bytes < 1024) {
+
+            return bytes + " B";
+
+        }
+
+
+        if (
+            bytes <
+            1024 * 1024
+        ) {
+
+            return (
+                (
+                    bytes /
+                    1024
+                ).toFixed(1) +
+                " KB"
+            );
+
+        }
+
+
+        return (
+            (
+                bytes /
+                (
+                    1024 *
+                    1024
+                )
+            ).toFixed(2) +
+            " MB"
+        );
+
+    }
+
+</script>
+
+
+</body>
+
+</html>
