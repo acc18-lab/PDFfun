@@ -53,4 +53,16 @@
         <loc>https://pdffun.pdffun-online.workers.dev/tools/organize-pdf.html</loc>
     </url>
 
+    <url>
+    <loc>https://pdffun.pdffun-online.workers.dev/privacy.html</loc>
+</url>
+
+<url>
+    <loc>https://pdffun.pdffun-online.workers.dev/terms.html</loc>
+</url>
+
+<url>
+    <loc>https://pdffun.pdffun-online.workers.dev/contact.html</loc>
+</url>
+
 </urlset>
