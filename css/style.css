@@ -594,19 +594,36 @@ footer {
         display: none;
     }
 
+    .mobile-menu-button {
+        display: block !important;
+        border: none;
+        background: transparent;
+        font-size: 26px;
+        line-height: 1;
+        cursor: pointer;
+        color: #172033;
+        padding: 8px;
+        position: relative;
+        z-index: 1100;
+    }
+
     .mobile-menu {
         display: none;
         position: absolute;
         left: 0;
         right: 0;
         top: 64px;
-        background: white;
+        width: 100%;
+        background: #ffffff;
         border-bottom: 1px solid #e8ebf0;
         padding: 15px 20px;
+        z-index: 1050;
+        box-shadow: 0 8px 20px rgba(25, 35, 55, 0.08);
     }
 
     .mobile-menu.show {
-        display: block;
+        display: flex !important;
+        flex-direction: column;
     }
 
     .mobile-menu a {
@@ -662,4 +679,14 @@ footer {
         gap: 30px;
         padding: 45px 20px;
     }
+
+}
+
+.section-description {
+    max-width: 760px;
+    margin: -15px auto 25px;
+    text-align: center;
+    color: #687386;
+    font-size: 15px;
+    line-height: 1.7;
 }
