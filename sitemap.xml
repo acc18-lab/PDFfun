@@ -1,70 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
     <url>
-        <loc>https://YOUR-DOMAIN.com/</loc>
-        <priority>1.0</priority>
+        <loc>https://pdffun.pdffun-online.workers.dev/</loc>
     </url>
 
     <url>
-        <loc>https://YOUR-DOMAIN.com/tools/merge-pdf.html</loc>
-        <priority>0.8</priority>
+        <loc>https://pdffun.pdffun-online.workers.dev/tools/merge-pdf.html</loc>
     </url>
 
     <url>
-        <loc>https://YOUR-DOMAIN.com/tools/split-pdf.html</loc>
-        <priority>0.8</priority>
+        <loc>https://pdffun.pdffun-online.workers.dev/tools/split-pdf.html</loc>
     </url>
 
     <url>
-        <loc>https://YOUR-DOMAIN.com/tools/compress-pdf.html</loc>
-        <priority>0.8</priority>
+        <loc>https://pdffun.pdffun-online.workers.dev/tools/compress-pdf.html</loc>
     </url>
 
     <url>
-        <loc>https://YOUR-DOMAIN.com/tools/jpg-to-pdf.html</loc>
-        <priority>0.8</priority>
+        <loc>https://pdffun.pdffun-online.workers.dev/tools/jpg-to-pdf.html</loc>
     </url>
 
     <url>
-        <loc>https://YOUR-DOMAIN.com/tools/pdf-to-jpg.html</loc>
-        <priority>0.8</priority>
+        <loc>https://pdffun.pdffun-online.workers.dev/tools/pdf-to-jpg.html</loc>
     </url>
 
     <url>
-        <loc>https://YOUR-DOMAIN.com/tools/rotate-pdf.html</loc>
-        <priority>0.8</priority>
+        <loc>https://pdffun.pdffun-online.workers.dev/tools/rotate-pdf.html</loc>
     </url>
 
     <url>
-        <loc>https://YOUR-DOMAIN.com/tools/organize-pdf.html</loc>
-        <priority>0.8</priority>
+        <loc>https://pdffun.pdffun-online.workers.dev/tools/protect-pdf.html</loc>
     </url>
 
     <url>
-        <loc>https://YOUR-DOMAIN.com/tools/watermark-pdf.html</loc>
-        <priority>0.8</priority>
+        <loc>https://pdffun.pdffun-online.workers.dev/tools/pdf-to-word.html</loc>
     </url>
 
     <url>
-        <loc>https://YOUR-DOMAIN.com/tools/word-to-pdf.html</loc>
-        <priority>0.8</priority>
+        <loc>https://pdffun.pdffun-online.workers.dev/tools/word-to-pdf.html</loc>
     </url>
 
     <url>
-        <loc>https://YOUR-DOMAIN.com/tools/pdf-to-word.html</loc>
-        <priority>0.7</priority>
+        <loc>https://pdffun.pdffun-online.workers.dev/tools/unlock-pdf.html</loc>
     </url>
 
     <url>
-        <loc>https://YOUR-DOMAIN.com/tools/protect-pdf.html</loc>
-        <priority>0.7</priority>
+        <loc>https://pdffun.pdffun-online.workers.dev/tools/watermark-pdf.html</loc>
     </url>
 
     <url>
-        <loc>https://YOUR-DOMAIN.com/tools/unlock-pdf.html</loc>
-        <priority>0.7</priority>
+        <loc>https://pdffun.pdffun-online.workers.dev/tools/organize-pdf.html</loc>
     </url>
 
 </urlset>
