@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Word to PDF Converter Online Free | PDFfun</title>
+
+    <meta name="description"
+          content="Convert Word DOCX files to PDF online for free with PDFfun. Quickly convert Word documents into PDF files directly in your browser.">
+
+    <meta name="robots"
+          content="index, follow">
+
+    <link rel="canonical"
+          href="https://pdffun.pdffun-online.workers.dev/tools/word-to-pdf.html">
+
+    <link rel="stylesheet"
+          href="../css/style.css">
+
+    <link rel="icon"
+          type="image/svg+xml"
+          href="../favicon.svg">
+
+</head>
+
+<body>
+
+<header class="header">
+    <div class="header-inner">
+
+        <a href="../index.html" class="brand">
+            <span class="logo-icon">PDF</span>
+            <span>PDF<span class="logo-highlight">fun</span></span>
+        </a>
+
+        <nav class="navigation">
+            <a href="../index.html">Home</a>
+            <a href="../index.html#tools">PDF Tools</a>
+            <a href="../index.html#how-it-works">How It Works</a>
+            <a href="../index.html#faq">FAQ</a>
+        </nav>
+
+    </div>
+</header>
+
+
+<main class="converter-box">
+
+    <h1>Word to PDF</h1>
+
+    <p class="description">
+        Convert a Word document into a PDF file.
+    </p>
+
+
+    <label class="drop-area">
+
+        <div class="upload-icon">📄</div>
+
+        <strong>Select a Word document</strong>
+
+        <p>
+            Click here to select a .docx file
+        </p>
+
+        <input
+            type="file"
+            id="wordFile"
+            accept=".docx"
+        >
+
+    </label>
+
+
+    <div
+        class="file-name"
+        id="fileName">
+    </div>
+
+
+    <div class="options">
+
+        <label for="pageSize">
+            PDF Page Size
+        </label>
+
+        <select id="pageSize">
+
+            <option value="a4">
+                A4
+            </option>
+
+            <option value="letter">
+                Letter
+            </option>
+
+        </select>
+
+    </div>
+
+
+    <button
+        class="convert-button"
+        id="convertButton"
+        disabled>
+
+        Convert to PDF
+
+    </button>
+
+
+    <div
+        class="status"
+        id="status">
+    </div>
+
+</main>
+
+
+<!-- DOCX reader -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.8.0/mammoth.browser.min.js"></script>
+
+<!-- PDF generator -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+
+<script>
+
+const fileInput =
+    document.getElementById("wordFile");
+
+const fileName =
+    document.getElementById("fileName");
+
+const convertButton =
+    document.getElementById("convertButton");
+
+const status =
+    document.getElementById("status");
+
+let selectedFile = null;
+
+
+/* -----------------------------
+   FILE SELECTION
+----------------------------- */
+
+fileInput.addEventListener("change", function () {
+
+    if (!this.files.length) {
+        return;
+    }
+
+    selectedFile = this.files[0];
+
+    fileName.textContent =
+        "Selected: " + selectedFile.name;
+
+    status.textContent = "";
+
+    convertButton.disabled = false;
+
+});
+
+
+/* -----------------------------
+   CONVERSION
+----------------------------- */
+
+convertButton.addEventListener(
+    "click",
+    async function () {
+
+        if (!selectedFile) {
+            return;
+        }
+
+        convertButton.disabled = true;
+
+        status.className = "status";
+
+        status.textContent =
+            "Reading Word document...";
+
+
+        try {
+
+            /* Read DOCX */
+
+            const arrayBuffer =
+                await selectedFile.arrayBuffer();
+
+
+            const result =
+                await mammoth.extractRawText({
+                    arrayBuffer: arrayBuffer
+                });
+
+
+            const text =
+                result.value.trim();
+
+
+            if (!text) {
+
+                throw new Error(
+                    "The Word document does not contain readable text."
+                );
+
+            }
+
+
+            status.textContent =
+                "Creating PDF...";
+
+
+            /* Create PDF */
+
+            const { jsPDF } =
+                window.jspdf;
+
+
+            const pageSize =
+                document.getElementById(
+                    "pageSize"
+                ).value;
+
+
+            const pdf =
+                new jsPDF({
+                    orientation: "portrait",
+                    unit: "mm",
+                    format: pageSize
+                });
+
+
+            const pageWidth =
+                pdf.internal.pageSize.getWidth();
+
+            const pageHeight =
+                pdf.internal.pageSize.getHeight();
+
+
+            const margin = 15;
+
+            const usableWidth =
+                pageWidth - margin * 2;
+
+            const usableHeight =
+                pageHeight - margin * 2;
+
+
+            const fontSize = 11;
+
+            pdf.setFont("helvetica");
+
+            pdf.setFontSize(fontSize);
+
+
+            /* Convert text into lines */
+
+            const lines =
+                pdf.splitTextToSize(
+                    text,
+                    usableWidth
+                );
+
+
+            let y = margin;
+
+
+            const lineHeight = 5.5;
+
+
+            lines.forEach(function (line) {
+
+                if (
+                    y + lineHeight >
+                    pageHeight - margin
+                ) {
+
+                    pdf.addPage();
+
+                    y = margin;
+
+                }
+
+
+                pdf.text(
+                    line,
+                    margin,
+                    y
+                );
+
+
+                y += lineHeight;
+
+            });
+
+
+            /* Download */
+
+            pdf.save(
+                "PDFfun-Word-Converted.pdf"
+            );
+
+
+            status.textContent =
+                "Conversion completed successfully.";
+
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "Word to PDF error:",
+                error
+            );
+
+
+            status.className =
+                "status error";
+
+
+            status.textContent =
+                "Could not convert this Word document. Please make sure it is a valid .docx file.";
+
+        }
+
+
+        convertButton.disabled = false;
+
+    }
+
+);
+
+</script>
+
+</body>
+</html>

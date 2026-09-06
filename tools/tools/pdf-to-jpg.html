@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>PDF to JPG Online Free – Convert PDF to Images | PDFfun</title>
+
+    <meta name="description"
+          content="Convert PDF pages to JPG images online for free with PDFfun. Turn PDF pages into high-quality images quickly and easily.">
+
+    <meta name="robots"
+          content="index, follow">
+
+    <link rel="canonical"
+          href="https://pdffun.pdffun-online.workers.dev/tools/pdf-to-jpg.html">
+
+    <link rel="stylesheet"
+          href="../css/style.css">
+
+    <link rel="icon"
+          type="image/svg+xml"
+          href="../favicon.svg">
+
+</head>
+
+
+<body>
+
+
+<header class="header">
+
+    <div class="logo">
+
+        <span class="logo-icon">
+            P
+        </span>
+
+        <span>
+            PDF<span class="logo-highlight">fun</span>
+        </span>
+
+    </div>
+
+
+    <nav class="navigation">
+
+        <a href="../index.html">
+            Home
+        </a>
+
+        <a href="../index.html#tools">
+            PDF Tools
+        </a>
+
+    </nav>
+
+</header>
+
+
+
+<main class="tool-page">
+
+    <div class="tool-container">
+
+
+        <div class="badge">
+            PDF TOOL
+        </div>
+
+
+        <h1>
+            PDF to JPG
+        </h1>
+
+
+        <p>
+            Convert PDF pages into JPG images.
+        </p>
+
+
+        <!-- UPLOAD -->
+
+        <div
+            class="upload-box"
+            onclick="document.getElementById('fileInput').click()">
+
+            <div class="upload-icon">
+                📄
+            </div>
+
+            <h2>
+                Select a PDF file
+            </h2>
+
+            <p>
+                Click here to choose your PDF
+            </p>
+
+            <input
+                type="file"
+                id="fileInput"
+                accept=".pdf,application/pdf">
+
+        </div>
+
+
+        <!-- FILE INFO -->
+
+        <div
+            id="fileInfo"
+            class="file-info">
+
+            <strong id="fileName"></strong>
+
+            <span id="pageCount"></span>
+
+        </div>
+
+
+        <!-- PREVIEWS -->
+
+        <div
+            id="previewGrid"
+            class="preview-grid">
+        </div>
+
+
+        <!-- OPTIONS -->
+
+        <div
+            id="options"
+            class="options">
+
+            <h3>
+                Image options
+            </h3>
+
+
+            <div class="option-row">
+
+                <label for="quality">
+                    JPG quality:
+                </label>
+
+                <select id="quality">
+
+                    <option value="0.95">
+                        High
+                    </option>
+
+                    <option value="0.80" selected>
+                        Recommended
+                    </option>
+
+                    <option value="0.60">
+                        Smaller file
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="option-row">
+
+                <label for="resolution">
+                    Resolution:
+                </label>
+
+                <select id="resolution">
+
+                    <option value="1">
+                        Standard
+                    </option>
+
+                    <option value="1.5" selected>
+                        High
+                    </option>
+
+                    <option value="2">
+                        Very High
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <!-- BUTTON -->
+
+        <button
+            id="convertButton"
+            class="convert-button"
+            disabled>
+
+            Convert to JPG
+
+        </button>
+
+
+        <div
+            id="status"
+            class="status">
+        </div>
+
+    </div>
+
+</main>
+
+
+
+<!-- PDF.JS -->
+
+<script type="module">
+
+    import * as pdfjsLib
+        from "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.min.mjs";
+
+
+    pdfjsLib.GlobalWorkerOptions.workerSrc =
+        "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.worker.min.mjs";
+
+
+    const fileInput =
+        document.getElementById(
+            "fileInput"
+        );
+
+
+    const fileInfo =
+        document.getElementById(
+            "fileInfo"
+        );
+
+
+    const fileName =
+        document.getElementById(
+            "fileName"
+        );
+
+
+    const pageCount =
+        document.getElementById(
+            "pageCount"
+        );
+
+
+    const previewGrid =
+        document.getElementById(
+            "previewGrid"
+        );
+
+
+    const options =
+        document.getElementById(
+            "options"
+        );
+
+
+    const convertButton =
+        document.getElementById(
+            "convertButton"
+        );
+
+
+    const status =
+        document.getElementById(
+            "status"
+        );
+
+
+    let selectedFile = null;
+
+
+    /*
+        SELECT PDF
+    */
+
+    fileInput.addEventListener(
+        "change",
+        async function () {
+
+            const file =
+                this.files[0];
+
+
+            if (!file) {
+                return;
+            }
+
+
+            selectedFile =
+                file;
+
+
+            fileName.textContent =
+                file.name;
+
+
+            fileInfo.style.display =
+                "block";
+
+
+            previewGrid.innerHTML =
+                "";
+
+
+            options.style.display =
+                "none";
+
+
+            convertButton.disabled =
+                true;
+
+
+            status.textContent =
+                "Loading PDF...";
+
+
+            try {
+
+                const arrayBuffer =
+                    await file.arrayBuffer();
+
+
+                const pdf =
+                    await pdfjsLib
+                        .getDocument({
+                            data: arrayBuffer
+                        })
+                        .promise;
+
+
+                pageCount.textContent =
+                    pdf.numPages +
+                    " page" +
+                    (
+                        pdf.numPages === 1
+                            ? ""
+                            : "s"
+                    );
+
+
+                /*
+                    CREATE PREVIEWS
+                */
+
+                const previewPages =
+                    Math.min(
+                        pdf.numPages,
+                        12
+                    );
+
+
+                for (
+                    let i = 1;
+                    i <= previewPages;
+                    i++
+                ) {
+
+                    const page =
+                        await pdf.getPage(i);
+
+
+                    const viewport =
+                        page.getViewport({
+                            scale: 0.7
+                        });
+
+
+                    const canvas =
+                        document.createElement(
+                            "canvas"
+                        );
+
+
+                    canvas.width =
+                        viewport.width;
+
+
+                    canvas.height =
+                        viewport.height;
+
+
+                    const context =
+                        canvas.getContext(
+                            "2d"
+                        );
+
+
+                    await page.render({
+                        canvasContext:
+                            context,
+
+                        viewport:
+                            viewport
+                    }).promise;
+
+
+                    const card =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    card.className =
+                        "preview-card";
+
+
+                    const label =
+                        document.createElement(
+                            "p"
+                        );
+
+
+                    label.textContent =
+                        "Page " + i;
+
+
+                    card.appendChild(
+                        canvas
+                    );
+
+
+                    card.appendChild(
+                        label
+                    );
+
+
+                    previewGrid.appendChild(
+                        card
+                    );
+
+                }
+
+
+                if (
+                    pdf.numPages > 12
+                ) {
+
+                    const note =
+                        document.createElement(
+                            "p"
+                        );
+
+
+                    note.textContent =
+                        "Showing the first 12 pages. All pages will be converted.";
+
+
+                    note.style.gridColumn =
+                        "1 / -1";
+
+
+                    note.style.color =
+                        "#777";
+
+
+                    previewGrid.appendChild(
+                        note
+                    );
+
+                }
+
+
+                options.style.display =
+                    "block";
+
+
+                convertButton.disabled =
+                    false;
+
+
+                status.textContent =
+                    "";
+
+            }
+
+            catch (error) {
+
+                console.error(error);
+
+
+                status.textContent =
+                    "Unable to read this PDF.";
+
+            }
+
+        }
+    );
+
+
+    /*
+        CONVERT
+    */
+
+    convertButton.addEventListener(
+        "click",
+        async function () {
+
+            if (!selectedFile) {
+                return;
+            }
+
+
+            convertButton.disabled =
+                true;
+
+
+            try {
+
+                const arrayBuffer =
+                    await selectedFile.arrayBuffer();
+
+
+                const pdf =
+                    await pdfjsLib
+                        .getDocument({
+                            data: arrayBuffer
+                        })
+                        .promise;
+
+
+                const quality =
+                    parseFloat(
+                        document.getElementById(
+                            "quality"
+                        ).value
+                    );
+
+
+                const resolution =
+                    parseFloat(
+                        document.getElementById(
+                            "resolution"
+                        ).value
+                    );
+
+
+                for (
+                    let i = 1;
+                    i <= pdf.numPages;
+                    i++
+                ) {
+
+                    status.textContent =
+                        "Converting page " +
+                        i +
+                        " of " +
+                        pdf.numPages +
+                        "...";
+
+
+                    const page =
+                        await pdf.getPage(i);
+
+
+                    const viewport =
+                        page.getViewport({
+                            scale: resolution
+                        });
+
+
+                    const canvas =
+                        document.createElement(
+                            "canvas"
+                        );
+
+
+                    canvas.width =
+                        Math.ceil(
+                            viewport.width
+                        );
+
+
+                    canvas.height =
+                        Math.ceil(
+                            viewport.height
+                        );
+
+
+                    const context =
+                        canvas.getContext(
+                            "2d"
+                        );
+
+
+                    await page.render({
+                        canvasContext:
+                            context,
+
+                        viewport:
+                            viewport
+                    }).promise;
+
+
+                    const jpgData =
+                        canvas.toDataURL(
+                            "image/jpeg",
+                            quality
+                        );
+
+
+                    const link =
+                        document.createElement(
+                            "a"
+                        );
+
+
+                    link.href =
+                        jpgData;
+
+
+                    link.download =
+                        "PDFfun-Page-" +
+                        i +
+                        ".jpg";
+
+
+                    document.body.appendChild(
+                        link
+                    );
+
+
+                    link.click();
+
+
+                    link.remove();
+
+
+                    await new Promise(
+                        resolve =>
+                            setTimeout(
+                                resolve,
+                                100
+                            )
+                    );
+
+                }
+
+
+                status.textContent =
+                    "All pages converted successfully.";
+
+            }
+
+            catch (error) {
+
+                console.error(error);
+
+
+                status.textContent =
+                    "Unable to convert this PDF.";
+
+            }
+
+
+            convertButton.disabled =
+                false;
+
+        }
+    );
+
+</script>
+
+
+</body>
+
+</html>

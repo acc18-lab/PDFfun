@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>PDFfun – Free Online PDF Tools</title>
+
+    <meta name="description"
+          content="PDFfun provides free online PDF tools to merge, split, compress, convert, rotate, organize, watermark and manage PDF files quickly and easily.">
+
+    <meta name="keywords"
+          content="PDF tools, free PDF tools, merge PDF, split PDF, compress PDF, PDF converter, JPG to PDF, PDF to JPG, rotate PDF, watermark PDF, organize PDF">
+
+    <meta name="robots"
+          content="index, follow">
+
+    <link rel="canonical"
+          href="https://pdffun.pdffun-online.workers.dev/">
+
+    <link rel="stylesheet"
+          href="css/style.css">
+
+    <link rel="icon"
+          type="image/svg+xml"
+          href="favicon.svg">
+
+</head>
+
+
+<body>
+
+
+<!-- =================================
+     HEADER
+================================= -->
+
+<header class="header">
+
+    <div class="header-inner">
+
+
+        <a href="index.html"
+           class="brand">
+
+            <span class="logo-icon">
+                PDF
+            </span>
+
+            <span>
+                PDF<span class="logo-highlight">fun</span>
+            </span>
+
+        </a>
+
+
+        <nav class="navigation">
+
+            <a href="index.html">
+                Home
+            </a>
+
+            <a href="#tools">
+                PDF Tools
+            </a>
+
+            <a href="#how-it-works">
+                How It Works
+            </a>
+
+            <a href="#faq">
+                FAQ
+            </a>
+
+        </nav>
+
+
+        <button
+            class="mobile-menu-button"
+            id="mobileMenuButton">
+
+            ☰
+
+        </button>
+
+    </div>
+
+
+    <div
+        class="mobile-menu"
+        id="mobileMenu">
+
+        <a href="index.html">
+            Home
+        </a>
+
+        <a href="#tools">
+            PDF Tools
+        </a>
+
+        <a href="#how-it-works">
+            How It Works
+        </a>
+
+        <a href="#faq">
+            FAQ
+        </a>
+
+    </div>
+
+</header>
+
+
+
+<!-- =================================
+     HERO
+================================= -->
+
+<section class="hero">
+
+        <h1>Free Online PDF Tools</h1>
+
+
+    <p>
+        Merge, split, compress, convert, rotate
+        and manage your PDF files quickly and easily.
+    </p>
+
+
+    <div class="hero-actions">
+
+        <a
+            href="#tools"
+            class="hero-button">
+
+            Explore PDF Tools
+
+        </a>
+
+    </div>
+
+
+    <p class="hero-note">
+        Simple tools. Fast processing. No complicated software.
+    </p>
+
+</section>
+
+
+
+<!-- =================================
+     TOOLS
+================================= -->
+
+<section
+    class="tools-section"
+    id="tools">
+
+
+    <div class="section-heading">
+
+        <h2>Free PDF Tools Online</h2>
+
+        <p class="section-description">
+            PDFfun is a free online PDF tools platform for merging, splitting,
+            compressing, converting, rotating, organizing and watermarking PDF files.
+            Process your documents quickly and easily from your browser.
+        </p>
+
+    </div>
+
+
+    <!-- SEARCH -->
+
+    <div class="tool-search">
+
+        <input
+            type="text"
+            id="toolSearch"
+            placeholder="Search PDF tools..."
+            autocomplete="off">
+
+    </div>
+
+
+    <!-- CATEGORIES -->
+
+    <div class="category-buttons">
+
+        <button
+            class="category-button active"
+            data-category="all">
+
+            All Tools
+
+        </button>
+
+
+        <button
+            class="category-button"
+            data-category="convert">
+
+            Convert
+
+        </button>
+
+
+        <button
+            class="category-button"
+            data-category="organize">
+
+            Organize
+
+        </button>
+
+
+        <button
+            class="category-button"
+            data-category="edit">
+
+            Edit
+
+        </button>
+
+
+        <button
+            class="category-button"
+            data-category="security">
+
+            Security
+
+        </button>
+
+    </div>
+
+
+
+    <!-- TOOL GRID -->
+
+    <div
+        class="tools-grid"
+        id="toolsGrid">
+
+
+        <!-- 1 -->
+
+        <div
+            class="tool-card"
+            data-tool="Merge PDF"
+            data-category="organize"
+            onclick="openTool('Merge PDF')">
+
+            <div class="tool-icon">
+                M
+            </div>
+
+            <h3>
+                Merge PDF
+            </h3>
+
+            <p>
+                Combine multiple PDF files into one document.
+            </p>
+
+        </div>
+
+
+
+        <!-- 2 -->
+
+        <div
+            class="tool-card"
+            data-tool="Split PDF"
+            data-category="organize"
+            onclick="openTool('Split PDF')">
+
+            <div class="tool-icon">
+                S
+            </div>
+
+            <h3>
+                Split PDF
+            </h3>
+
+            <p>
+                Extract selected pages from a PDF.
+            </p>
+
+        </div>
+
+
+
+        <!-- 3 -->
+
+        <div
+            class="tool-card"
+            data-tool="Compress PDF"
+            data-category="edit"
+            onclick="openTool('Compress PDF')">
+
+            <div class="tool-icon">
+                C
+            </div>
+
+            <h3>
+                Compress PDF
+            </h3>
+
+            <p>
+                Reduce PDF file size for easier sharing.
+            </p>
+
+        </div>
+
+
+
+        <!-- 4 -->
+
+        <div
+            class="tool-card"
+            data-tool="JPG to PDF"
+            data-category="convert"
+            onclick="openTool('JPG to PDF')">
+
+            <div class="tool-icon">
+                J
+            </div>
+
+            <h3>
+                JPG to PDF
+            </h3>
+
+            <p>
+                Turn images into a PDF document.
+            </p>
+
+        </div>
+
+
+
+        <!-- 5 -->
+
+        <div
+            class="tool-card"
+            data-tool="PDF to JPG"
+            data-category="convert"
+            onclick="openTool('PDF to JPG')">
+
+            <div class="tool-icon">
+                P
+            </div>
+
+            <h3>
+                PDF to JPG
+            </h3>
+
+            <p>
+                Convert PDF pages into JPG images.
+            </p>
+
+        </div>
+
+
+
+        <!-- 6 -->
+
+        <div
+            class="tool-card"
+            data-tool="Rotate PDF"
+            data-category="organize"
+            onclick="openTool('Rotate PDF')">
+
+            <div class="tool-icon">
+                R
+            </div>
+
+            <h3>
+                Rotate PDF
+            </h3>
+
+            <p>
+                Rotate PDF pages by 90, 180 or 270 degrees.
+            </p>
+
+        </div>
+
+
+
+        <!-- 7 -->
+
+        <div
+            class="tool-card"
+            data-tool="Organize PDF"
+            data-category="organize"
+            onclick="openTool('Organize PDF')">
+
+            <div class="tool-icon">
+                O
+            </div>
+
+            <h3>
+                Organize PDF
+            </h3>
+
+            <p>
+                Reorder, rotate and delete PDF pages.
+            </p>
+
+        </div>
+
+
+
+        <!-- 8 -->
+
+        <div
+            class="tool-card"
+            data-tool="Watermark PDF"
+            data-category="edit"
+            onclick="openTool('Watermark PDF')">
+
+            <div class="tool-icon">
+                W
+            </div>
+
+            <h3>
+                Watermark PDF
+            </h3>
+
+            <p>
+                Add a text watermark to your PDF pages.
+            </p>
+
+        </div>
+
+
+
+        <!-- 9 -->
+
+        <div
+            class="tool-card"
+            data-tool="Word to PDF"
+            data-category="convert"
+            onclick="openTool('Word to PDF')">
+
+            <div class="tool-icon">
+                W
+            </div>
+
+            <h3>
+                Word to PDF
+            </h3>
+
+            <p>
+                Convert Word documents into PDF files.
+            </p>
+
+        </div>
+
+
+
+        <!-- 10 -->
+
+        <div
+            class="tool-card"
+            data-tool="PDF to Word"
+            data-category="convert"
+            onclick="openTool('PDF to Word')">
+
+            <div class="tool-icon">
+                P
+            </div>
+
+            <h3>
+                PDF to Word
+            </h3>
+
+            <p>
+                Convert PDF documents into editable Word files.
+            </p>
+
+        </div>
+
+
+
+        <!-- 11 -->
+
+        <div
+            class="tool-card"
+            data-tool="Protect PDF"
+            data-category="security"
+            onclick="openTool('Protect PDF')">
+
+            <div class="tool-icon">
+                🔒
+            </div>
+
+            <h3>
+                Protect PDF
+            </h3>
+
+            <p>
+                Protect PDF files with a password.
+            </p>
+
+        </div>
+
+
+
+        <!-- 12 -->
+
+        <div
+            class="tool-card"
+            data-tool="Unlock PDF"
+            data-category="security"
+            onclick="openTool('Unlock PDF')">
+
+            <div class="tool-icon">
+                🔓
+            </div>
+
+            <h3>
+                Unlock PDF
+            </h3>
+
+            <p>
+                Remove PDF password protection.
+            </p>
+
+        </div>
+
+
+    </div>
+
+
+
+    <div
+        class="no-results"
+        id="noResults">
+
+        No PDF tools found.
+
+    </div>
+
+</section>
+
+
+
+<!-- =================================
+     HOW IT WORKS
+================================= -->
+
+<section
+    class="how-section"
+    id="how-it-works">
+
+    <h2>
+        How It Works
+    </h2>
+
+    <p>
+        Work with your PDF files in three simple steps.
+    </p>
+
+
+    <div class="steps">
+
+
+        <div class="step">
+
+            <div class="step-number">
+                1
+            </div>
+
+            <h3>
+                Choose a tool
+            </h3>
+
+            <p>
+                Select the PDF tool you need.
+            </p>
+
+        </div>
+
+
+
+        <div class="step">
+
+            <div class="step-number">
+                2
+            </div>
+
+            <h3>
+                Upload your file
+            </h3>
+
+            <p>
+                Select your PDF or document.
+            </p>
+
+        </div>
+
+
+
+        <div class="step">
+
+            <div class="step-number">
+                3
+            </div>
+
+            <h3>
+                Download
+            </h3>
+
+            <p>
+                Process your file and download the result.
+            </p>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =================================
+     WHY PDFfun
+================================= -->
+
+<section class="why-section">
+
+    <div class="why-content">
+
+        <h2>
+            Why use PDFfun?
+        </h2>
+
+        <p>
+            PDFfun is designed to make everyday PDF
+            tasks simple, fast and accessible.
+        </p>
+
+    </div>
+
+
+    <div class="benefits">
+
+
+        <div class="benefit">
+
+            <h3>
+                Simple
+            </h3>
+
+            <p>
+                Easy-to-use tools without complicated software.
+            </p>
+
+        </div>
+
+
+        <div class="benefit">
+
+            <h3>
+                Fast
+            </h3>
+
+            <p>
+                Get your PDF tasks done quickly.
+            </p>
+
+        </div>
+
+
+        <div class="benefit">
+
+            <h3>
+                Accessible
+            </h3>
+
+            <p>
+                Use PDF tools directly from your browser.
+            </p>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =================================
+     FAQ
+================================= -->
+
+<section
+    class="faq-section"
+    id="faq">
+
+    <h2>
+        Frequently Asked Questions
+    </h2>
+
+
+    <div class="faq-container">
+
+
+        <details>
+
+            <summary>
+                Is PDFfun free?
+            </summary>
+
+            <p>
+                PDFfun is being developed with free
+                online PDF tools for everyday use.
+            </p>
+
+        </details>
+
+
+
+        <details>
+
+            <summary>
+                Do I need to install software?
+            </summary>
+
+            <p>
+                No. PDFfun tools are designed to work
+                directly in your web browser.
+            </p>
+
+        </details>
+
+
+
+        <details>
+
+            <summary>
+                What PDF tools are available?
+            </summary>
+
+            <p>
+                PDFfun currently includes tools for
+                merging, splitting, compressing,
+                converting, rotating, organizing
+                and watermarking PDFs.
+            </p>
+
+        </details>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =================================
+     FOOTER
+================================= -->
+
+<footer>
+
+    <div class="footer-main">
+
+
+        <div class="footer-brand">
+
+            <h3>
+                PDFfun
+            </h3>
+
+            <p>
+                Simple PDF tools, right in your browser.
+            </p>
+
+        </div>
+
+
+        <div class="footer-column">
+
+            <h4>
+                Tools
+            </h4>
+
+            <a href="#tools">
+                Merge PDF
+            </a>
+
+            <a href="#tools">
+                Compress PDF
+            </a>
+
+            <a href="#tools">
+                JPG to PDF
+            </a>
+
+            <a href="#tools">
+                PDF to JPG
+            </a>
+
+        </div>
+
+
+        <div class="footer-column">
+
+            <h4>
+                Company
+            </h4>
+
+            <a href="#how-it-works">
+                How It Works
+            </a>
+
+            <a href="#faq">
+                FAQ
+            </a>
+
+        </div>
+
+
+    </div>
+
+
+    <div class="footer-bottom">
+
+        © 2026 PDFfun. All rights reserved.
+
+    </div>
+
+</footer>
+
+
+
+<!-- MAIN TOOL ROUTING -->
+
+<script src="js/app.js"></script>
+
+
+
+<!-- HOMEPAGE FUNCTIONS -->
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+
+        /* ==========================
+           MOBILE MENU
+        ========================== */
+
+        const mobileButton =
+            document.getElementById(
+                "mobileMenuButton"
+            );
+
+        const mobileMenu =
+            document.getElementById(
+                "mobileMenu"
+            );
+
+
+        mobileButton.addEventListener(
+            "click",
+            function () {
+
+                mobileMenu.classList.toggle(
+                    "show"
+                );
+
+            }
+        );
+
+
+        /* ==========================
+           TOOL SEARCH
+        ========================== */
+
+        const searchInput =
+            document.getElementById(
+                "toolSearch"
+            );
+
+        const toolCards =
+            document.querySelectorAll(
+                ".tool-card"
+            );
+
+        const categoryButtons =
+            document.querySelectorAll(
+                ".category-button"
+            );
+
+        const noResults =
+            document.getElementById(
+                "noResults"
+            );
+
+
+        let selectedCategory =
+            "all";
+
+
+        function filterTools() {
+
+            const search =
+                searchInput.value
+                    .toLowerCase()
+                    .trim();
+
+
+            let visibleCount = 0;
+
+
+            toolCards.forEach(
+                function (card) {
+
+                    const toolName =
+                        card.dataset.tool
+                            .toLowerCase();
+
+
+                    const category =
+                        card.dataset.category;
+
+
+                    const matchesSearch =
+                        toolName.includes(
+                            search
+                        );
+
+
+                    const matchesCategory =
+                        selectedCategory ===
+                            "all" ||
+                        category ===
+                            selectedCategory;
+
+
+                    if (
+                        matchesSearch &&
+                        matchesCategory
+                    ) {
+
+                        card.style.display =
+                            "";
+
+                        visibleCount++;
+
+                    }
+
+                    else {
+
+                        card.style.display =
+                            "none";
+
+                    }
+
+                }
+            );
+
+
+            if (
+                visibleCount === 0
+            ) {
+
+                noResults.style.display =
+                    "block";
+
+            }
+
+            else {
+
+                noResults.style.display =
+                    "none";
+
+            }
+
+        }
+
+
+        searchInput.addEventListener(
+            "input",
+            filterTools
+        );
+
+
+        /* ==========================
+           CATEGORY BUTTONS
+        ========================== */
+
+        categoryButtons.forEach(
+            function (button) {
+
+                button.addEventListener(
+                    "click",
+                    function () {
+
+
+                        categoryButtons.forEach(
+                            function (btn) {
+
+                                btn.classList.remove(
+                                    "active"
+                                );
+
+                            }
+                        );
+
+
+                        this.classList.add(
+                            "active"
+                        );
+
+
+                        selectedCategory =
+                            this.dataset.category;
+
+
+                        filterTools();
+
+                    }
+                );
+
+            }
+        );
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>

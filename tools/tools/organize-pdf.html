@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Organize PDF Online Free – Rearrange PDF Pages | PDFfun</title>
+
+    <meta name="description"
+          content="Organize PDF pages online for free with PDFfun. Rearrange, delete and rotate PDF pages easily and download your organized document.">
+
+    <meta name="robots"
+          content="index, follow">
+
+    <link rel="canonical"
+          href="https://pdffun.pdffun-online.workers.dev/tools/organize-pdf.html">
+
+    <link rel="stylesheet"
+          href="../css/style.css">
+
+    <link rel="icon"
+          type="image/svg+xml"
+          href="../favicon.svg">
+
+</head>
+
+
+<body>
+
+
+<header class="header">
+
+    <div class="header-inner">
+
+        <a href="../index.html"
+           class="brand">
+
+            <span class="logo-icon">
+                PDF
+            </span>
+
+            <span>
+                PDF<span class="logo-highlight">
+                    fun
+                </span>
+            </span>
+
+        </a>
+
+
+        <nav class="navigation">
+
+            <a href="../index.html">
+                Home
+            </a>
+
+            <a href="../index.html#tools">
+                PDF Tools
+            </a>
+
+            <a href="../index.html#how-it-works">
+                How It Works
+            </a>
+
+            <a href="../index.html#faq">
+                FAQ
+            </a>
+
+        </nav>
+
+    </div>
+
+</header>
+
+
+
+<main class="organize-container">
+
+
+    <h1>
+        Organize PDF
+    </h1>
+
+
+    <p class="description">
+        Reorder, rotate and delete pages from your PDF.
+    </p>
+
+
+
+    <label class="upload-area">
+
+        <div class="upload-icon">
+            📑
+        </div>
+
+        <strong>
+            Select a PDF
+        </strong>
+
+        <p>
+            Click here to choose your PDF file
+        </p>
+
+        <input
+            type="file"
+            id="pdfFile"
+            accept=".pdf"
+        >
+
+    </label>
+
+
+
+    <div
+        class="file-name"
+        id="fileName">
+    </div>
+
+
+
+    <div
+        class="pages-grid"
+        id="pagesGrid">
+    </div>
+
+
+
+    <div class="controls">
+
+        <button
+            class="download-button"
+            id="downloadButton"
+            disabled>
+
+            Download Organized PDF
+
+        </button>
+
+
+        <button
+            class="clear-button"
+            id="clearButton">
+
+            Clear
+
+        </button>
+
+    </div>
+
+
+
+    <div
+        class="status"
+        id="status">
+    </div>
+
+
+</main>
+
+
+
+<script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.min.mjs"
+        type="module"
+        id="pdfjs-module">
+</script>
+
+<script type="module">
+
+import * as pdfjsLib from
+"https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.min.mjs";
+
+pdfjsLib.GlobalWorkerOptions.workerSrc =
+"https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.worker.min.mjs";
+
+
+const pdfFile =
+    document.getElementById("pdfFile");
+
+const fileName =
+    document.getElementById("fileName");
+
+const pagesGrid =
+    document.getElementById("pagesGrid");
+
+const downloadButton =
+    document.getElementById("downloadButton");
+
+const clearButton =
+    document.getElementById("clearButton");
+
+const status =
+    document.getElementById("status");
+
+
+let selectedFile = null;
+let pdfBytes = null;
+let pages = [];
+
+
+/* =================================
+   SELECT PDF
+================================= */
+
+pdfFile.addEventListener(
+    "change",
+    async function () {
+
+        if (!this.files.length) {
+            return;
+        }
+
+        selectedFile = this.files[0];
+
+        fileName.textContent =
+            "Selected: " +
+            selectedFile.name;
+
+        status.className = "status";
+
+        status.textContent =
+            "Loading PDF pages...";
+
+        pagesGrid.innerHTML = "";
+
+        downloadButton.disabled = true;
+
+
+        try {
+
+            pdfBytes =
+                await selectedFile.arrayBuffer();
+
+
+            const pdfDoc =
+                await PDFLib.PDFDocument.load(
+                    pdfBytes
+                );
+
+
+            const pageCount =
+                pdfDoc.getPageCount();
+
+
+            pages = [];
+
+
+            for (
+                let i = 0;
+                i < pageCount;
+                i++
+            ) {
+
+                pages.push({
+
+                    originalIndex: i,
+
+                    rotation: 0
+
+                });
+
+            }
+
+
+            await renderPages();
+
+
+            status.textContent =
+                pageCount +
+                " page" +
+                (pageCount === 1
+                    ? ""
+                    : "s") +
+                " loaded.";
+
+            downloadButton.disabled = false;
+
+        }
+
+        catch (error) {
+
+            console.error(error);
+
+            status.className =
+                "status error";
+
+            status.textContent =
+                "Could not open this PDF. It may be encrypted or invalid.";
+
+        }
+
+    }
+);
+
+
+
+/* =================================
+   RENDER PAGES
+================================= */
+
+async function renderPages() {
+
+    pagesGrid.innerHTML = "";
+
+
+    const loadingTask =
+        pdfjsLib.getDocument({
+            data: pdfBytes.slice(0)
+        });
+
+
+    const pdf =
+        await loadingTask.promise;
+
+
+    for (
+        let index = 0;
+        index < pages.length;
+        index++
+    ) {
+
+        const pageData =
+            pages[index];
+
+
+        const card =
+            document.createElement("div");
+
+        card.className =
+            "page-card";
+
+        card.draggable = true;
+
+        card.dataset.index =
+            index;
+
+
+        const canvas =
+            document.createElement("canvas");
+
+        canvas.className =
+            "page-preview";
+
+
+        const pageNumber =
+            document.createElement("div");
+
+        pageNumber.className =
+            "page-number";
+
+        pageNumber.textContent =
+            "Page " +
+            (index + 1) +
+            " • Original " +
+            (pageData.originalIndex + 1);
+
+
+        const actions =
+            document.createElement("div");
+
+        actions.className =
+            "page-actions";
+
+
+        const rotateButton =
+            document.createElement("button");
+
+        rotateButton.textContent =
+            "↻ Rotate";
+
+
+        rotateButton.onclick =
+            function (event) {
+
+                event.stopPropagation();
+
+                pageData.rotation =
+                    (
+                        pageData.rotation +
+                        90
+                    ) % 360;
+
+                rotateButton.textContent =
+                    "↻ " +
+                    pageData.rotation +
+                    "°";
+
+            };
+
+
+        const deleteButton =
+            document.createElement("button");
+
+        deleteButton.textContent =
+            "Delete";
+
+        deleteButton.className =
+            "delete-page";
+
+
+        deleteButton.onclick =
+            function (event) {
+
+                event.stopPropagation();
+
+
+                pages.splice(
+                    index,
+                    1
+                );
+
+
+                renderPages();
+
+            };
+
+
+        actions.appendChild(
+            rotateButton
+        );
+
+        actions.appendChild(
+            deleteButton
+        );
+
+
+        card.appendChild(
+            canvas
+        );
+
+        card.appendChild(
+            pageNumber
+        );
+
+        card.appendChild(
+            actions
+        );
+
+
+        /* DRAG START */
+
+        card.addEventListener(
+            "dragstart",
+            function () {
+
+                card.classList.add(
+                    "dragging"
+                );
+
+                card.dataset.dragIndex =
+                    index;
+
+            }
+        );
+
+
+        /* DRAG END */
+
+        card.addEventListener(
+            "dragend",
+            function () {
+
+                card.classList.remove(
+                    "dragging"
+                );
+
+            }
+        );
+
+
+        /* DRAG OVER */
+
+        card.addEventListener(
+            "dragover",
+            function (event) {
+
+                event.preventDefault();
+
+            }
+        );
+
+
+        /* DROP */
+
+        card.addEventListener(
+            "drop",
+            function (event) {
+
+                event.preventDefault();
+
+
+                const dragging =
+                    document.querySelector(
+                        ".dragging"
+                    );
+
+
+                if (!dragging) {
+                    return;
+                }
+
+
+                const fromIndex =
+                    Number(
+                        dragging.dataset.dragIndex
+                    );
+
+
+                const toIndex =
+                    index;
+
+
+                if (
+                    fromIndex ===
+                    toIndex
+                ) {
+
+                    return;
+
+                }
+
+
+                const moved =
+                    pages.splice(
+                        fromIndex,
+                        1
+                    )[0];
+
+
+                pages.splice(
+                    toIndex,
+                    0,
+                    moved
+                );
+
+
+                renderPages();
+
+            }
+        );
+
+
+        pagesGrid.appendChild(
+            card
+        );
+
+
+        /* CREATE THUMBNAIL */
+
+        try {
+
+            const pdfPage =
+                await pdf.getPage(
+                    pageData.originalIndex + 1
+                );
+
+
+            const viewport =
+                pdfPage.getViewport({
+                    scale: 0.45
+                });
+
+
+            canvas.width =
+                viewport.width;
+
+            canvas.height =
+                viewport.height;
+
+
+            const context =
+                canvas.getContext("2d");
+
+
+            await pdfPage.render({
+
+                canvasContext:
+                    context,
+
+                viewport:
+                    viewport
+
+            }).promise;
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "Thumbnail error:",
+                error
+            );
+
+        }
+
+    }
+
+}
+
+
+
+/* =================================
+   DOWNLOAD
+================================= */
+
+downloadButton.addEventListener(
+    "click",
+    async function () {
+
+        if (
+            !pdfBytes ||
+            !pages.length
+        ) {
+
+            status.className =
+                "status error";
+
+            status.textContent =
+                "Please upload a PDF first.";
+
+            return;
+
+        }
+
+
+        downloadButton.disabled =
+            true;
+
+
+        status.className =
+            "status";
+
+        status.textContent =
+            "Creating organized PDF...";
+
+
+        try {
+
+            const sourcePdf =
+                await PDFLib.PDFDocument.load(
+                    pdfBytes
+                );
+
+
+            const outputPdf =
+                await PDFLib.PDFDocument.create();
+
+
+            const indices =
+                pages.map(
+                    function (page) {
+
+                        return page.originalIndex;
+
+                    }
+                );
+
+
+            const copiedPages =
+                await outputPdf.copyPages(
+                    sourcePdf,
+                    indices
+                );
+
+
+            copiedPages.forEach(
+                function (
+                    page,
+                    index
+                ) {
+
+                    page.setRotation(
+                        PDFLib.degrees(
+                            pages[index].rotation
+                        )
+                    );
+
+
+                    outputPdf.addPage(
+                        page
+                    );
+
+                }
+            );
+
+
+            const output =
+                await outputPdf.save();
+
+
+            const blob =
+                new Blob(
+                    [output],
+                    {
+                        type:
+                            "application/pdf"
+                    }
+                );
+
+
+            const url =
+                URL.createObjectURL(
+                    blob
+                );
+
+
+            const link =
+                document.createElement("a");
+
+
+            link.href = url;
+
+            link.download =
+                "PDFfun-Organized.pdf";
+
+
+            document.body.appendChild(
+                link
+            );
+
+            link.click();
+
+            link.remove();
+
+
+            URL.revokeObjectURL(
+                url
+            );
+
+
+            status.textContent =
+                "Organized PDF downloaded successfully.";
+
+        }
+
+        catch (error) {
+
+            console.error(error);
+
+            status.className =
+                "status error";
+
+            status.textContent =
+                "Could not create the organized PDF.";
+
+        }
+
+
+        downloadButton.disabled =
+            false;
+
+    }
+);
+
+
+
+/* =================================
+   CLEAR
+================================= */
+
+clearButton.addEventListener(
+    "click",
+    function () {
+
+        selectedFile = null;
+
+        pdfBytes = null;
+
+        pages = [];
+
+        pdfFile.value = "";
+
+        fileName.textContent = "";
+
+        pagesGrid.innerHTML = "";
+
+        status.textContent = "";
+
+        downloadButton.disabled =
+            true;
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>

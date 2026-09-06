@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Split PDF Online Free – Extract PDF Pages | PDFfun</title>
+
+    <meta name="description"
+          content="Split PDF files and extract selected pages online for free with PDFfun. Easily divide a PDF into smaller documents using page ranges.">
+
+    <meta name="robots"
+          content="index, follow">
+
+    <link rel="canonical"
+          href="https://pdffun.pdffun-online.workers.dev/tools/split-pdf.html">
+
+    <link rel="stylesheet"
+          href="../css/style.css">
+
+    <link rel="icon"
+          type="image/svg+xml"
+          href="../favicon.svg">
+
+</head>
+
+
+<body>
+
+
+    <!-- HEADER -->
+
+    <header class="header">
+
+        <div class="logo">
+
+            <span class="logo-icon">
+                P
+            </span>
+
+            <span>
+                PDF<span class="logo-highlight">fun</span>
+            </span>
+
+        </div>
+
+
+        <nav class="navigation">
+
+            <a href="../index.html">
+                Home
+            </a>
+
+            <a href="../index.html#tools">
+                PDF Tools
+            </a>
+
+        </nav>
+
+    </header>
+
+
+    <!-- TOOL -->
+
+    <main class="tool-page">
+
+        <div class="tool-container">
+
+            <div class="badge">
+                PDF TOOL
+            </div>
+
+
+            <h1>
+                Split PDF
+            </h1>
+
+
+            <p>
+                Extract selected pages from a PDF and create a new document.
+            </p>
+
+
+            <!-- UPLOAD -->
+
+            <div
+                class="upload-box"
+                onclick="document.getElementById('fileInput').click()">
+
+                <div class="upload-icon">
+                    📄
+                </div>
+
+                <h2>
+                    Select a PDF file
+                </h2>
+
+                <p>
+                    Click here to choose your PDF
+                </p>
+
+                <input
+                    type="file"
+                    id="fileInput"
+                    accept=".pdf,application/pdf">
+
+            </div>
+
+
+            <!-- FILE INFO -->
+
+            <div
+                id="fileInfo"
+                class="file-info">
+
+                <strong id="fileName"></strong>
+
+                <span id="pageCount"></span>
+
+            </div>
+
+
+            <!-- PAGE CONTROLS -->
+
+            <div
+                id="pageControls"
+                class="page-controls">
+
+                <label for="pageRange">
+                    Pages to extract
+                </label>
+
+                <input
+                    type="text"
+                    id="pageRange"
+                    placeholder="Example: 1-3 or 1,3,5 or 2-5">
+
+                <p class="help-text">
+                    Use commas for individual pages and hyphens for ranges.
+                    Example: 1,3,5-7
+                </p>
+
+            </div>
+
+
+            <!-- SPLIT BUTTON -->
+
+            <button
+                id="splitButton"
+                class="split-button"
+                disabled>
+
+                Extract Pages
+
+            </button>
+
+
+            <div
+                id="status"
+                class="status">
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <!-- PDF LIBRARY -->
+
+    <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+
+
+    <script>
+
+        const fileInput =
+            document.getElementById("fileInput");
+
+        const fileInfo =
+            document.getElementById("fileInfo");
+
+        const fileName =
+            document.getElementById("fileName");
+
+        const pageCount =
+            document.getElementById("pageCount");
+
+        const pageControls =
+            document.getElementById("pageControls");
+
+        const pageRange =
+            document.getElementById("pageRange");
+
+        const splitButton =
+            document.getElementById("splitButton");
+
+        const status =
+            document.getElementById("status");
+
+
+        let selectedFile = null;
+
+
+        /* FILE SELECTION */
+
+        fileInput.addEventListener(
+            "change",
+            async function () {
+
+                const file =
+                    this.files[0];
+
+                if (!file) {
+                    return;
+                }
+
+
+                selectedFile = file;
+
+
+                fileName.textContent =
+                    file.name;
+
+
+                try {
+
+                    const arrayBuffer =
+                        await file.arrayBuffer();
+
+
+                    const pdf =
+                        await PDFLib.PDFDocument.load(
+                            arrayBuffer
+                        );
+
+
+                    const totalPages =
+                        pdf.getPageCount();
+
+
+                    pageCount.textContent =
+                        totalPages +
+                        " page" +
+                        (totalPages === 1 ? "" : "s");
+
+
+                    fileInfo.style.display =
+                        "block";
+
+
+                    pageControls.style.display =
+                        "block";
+
+
+                    splitButton.disabled =
+                        false;
+
+
+                }
+
+                catch (error) {
+
+                    status.textContent =
+                        "Unable to read this PDF.";
+
+                }
+
+            }
+        );
+
+
+        /* SPLIT */
+
+        splitButton.addEventListener(
+            "click",
+            async function () {
+
+                if (!selectedFile) {
+                    return;
+                }
+
+
+                const range =
+                    pageRange.value.trim();
+
+
+                if (!range) {
+
+                    alert(
+                        "Please enter the pages you want to extract."
+                    );
+
+                    return;
+
+                }
+
+
+                try {
+
+                    splitButton.disabled =
+                        true;
+
+                    status.textContent =
+                        "Creating PDF...";
+
+
+                    const arrayBuffer =
+                        await selectedFile.arrayBuffer();
+
+
+                    const sourcePdf =
+                        await PDFLib.PDFDocument.load(
+                            arrayBuffer
+                        );
+
+
+                    const totalPages =
+                        sourcePdf.getPageCount();
+
+
+                    const pageNumbers =
+                        parsePageRange(
+                            range,
+                            totalPages
+                        );
+
+
+                    if (
+                        pageNumbers.length === 0
+                    ) {
+
+                        throw new Error(
+                            "No valid pages selected."
+                        );
+
+                    }
+
+
+                    const newPdf =
+                        await PDFLib.PDFDocument.create();
+
+
+                    const pages =
+                        await newPdf.copyPages(
+                            sourcePdf,
+                            pageNumbers
+                        );
+
+
+                    pages.forEach(
+                        page => {
+
+                            newPdf.addPage(page);
+
+                        }
+                    );
+
+
+                    const pdfBytes =
+                        await newPdf.save();
+
+
+                    const blob =
+                        new Blob(
+                            [pdfBytes],
+                            {
+                                type:
+                                    "application/pdf"
+                            }
+                        );
+
+
+                    const url =
+                        URL.createObjectURL(blob);
+
+
+                    const link =
+                        document.createElement("a");
+
+
+                    link.href = url;
+
+                    link.download =
+                        "PDFfun-Split.pdf";
+
+
+                    document.body.appendChild(link);
+
+                    link.click();
+
+                    link.remove();
+
+
+                    URL.revokeObjectURL(url);
+
+
+                    status.textContent =
+                        "PDF created successfully.";
+
+                }
+
+                catch (error) {
+
+                    console.error(error);
+
+                    status.textContent =
+                        "Please check your page numbers and try again.";
+
+                }
+
+
+                splitButton.disabled =
+                    false;
+
+            }
+        );
+
+
+        /* PAGE RANGE PARSER */
+
+        function parsePageRange(
+            range,
+            totalPages
+        ) {
+
+            const pages = new Set();
+
+
+            const parts =
+                range.split(",");
+
+
+            for (
+                let part of parts
+            ) {
+
+                part =
+                    part.trim();
+
+
+                if (
+                    part.includes("-")
+                ) {
+
+                    const rangeParts =
+                        part.split("-");
+
+
+                    if (
+                        rangeParts.length !== 2
+                    ) {
+                        continue;
+                    }
+
+
+                    const start =
+                        parseInt(
+                            rangeParts[0].trim()
+                        );
+
+
+                    const end =
+                        parseInt(
+                            rangeParts[1].trim()
+                        );
+
+
+                    if (
+                        isNaN(start) ||
+                        isNaN(end)
+                    ) {
+                        continue;
+                    }
+
+
+                    const first =
+                        Math.min(
+                            start,
+                            end
+                        );
+
+
+                    const last =
+                        Math.max(
+                            start,
+                            end
+                        );
+
+
+                    for (
+                        let i = first;
+                        i <= last;
+                        i++
+                    ) {
+
+                        if (
+                            i >= 1 &&
+                            i <= totalPages
+                        ) {
+
+                            pages.add(i - 1);
+
+                        }
+
+                    }
+
+                }
+
+                else {
+
+                    const page =
+                        parseInt(part);
+
+
+                    if (
+                        !isNaN(page) &&
+                        page >= 1 &&
+                        page <= totalPages
+                    ) {
+
+                        pages.add(page - 1);
+
+                    }
+
+                }
+
+            }
+
+
+            return Array.from(pages).sort(
+                (a, b) => a - b
+            );
+
+        }
+
+    </script>
+
+</body>
+
+</html>

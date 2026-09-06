@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Unlock PDF Online – Remove PDF Password | PDFfun</title>
+
+    <meta name="description"
+          content="Unlock password-protected PDF files with PDFfun when you have the required password or authorization. Process PDF documents online.">
+
+    <meta name="robots"
+          content="index, follow">
+
+    <link rel="canonical"
+          href="https://pdffun.pdffun-online.workers.dev/tools/unlock-pdf.html">
+
+    <link rel="stylesheet"
+          href="../css/style.css">
+
+    <link rel="icon"
+          type="image/svg+xml"
+          href="../favicon.svg">
+
+</head>
+
+
+<body>
+
+
+<header class="header">
+
+    <div class="header-inner">
+
+        <a href="../index.html"
+           class="brand">
+
+            <span class="logo-icon">
+                PDF
+            </span>
+
+            <span>
+                PDF<span class="logo-highlight">fun</span>
+            </span>
+
+        </a>
+
+
+        <nav class="navigation">
+
+            <a href="../index.html">
+                Home
+            </a>
+
+            <a href="../index.html#tools">
+                PDF Tools
+            </a>
+
+            <a href="../index.html#how-it-works">
+                How It Works
+            </a>
+
+            <a href="../index.html#faq">
+                FAQ
+            </a>
+
+        </nav>
+
+    </div>
+
+</header>
+
+
+
+<main class="unlock-container">
+
+
+    <h1>
+        Unlock PDF
+    </h1>
+
+
+    <p class="description">
+        Remove password protection from a PDF using its password.
+    </p>
+
+
+
+    <label class="upload-area">
+
+        <div class="upload-icon">
+            🔓
+        </div>
+
+        <strong>
+            Select a protected PDF
+        </strong>
+
+        <p>
+            Click here to choose your PDF file
+        </p>
+
+
+        <input
+            type="file"
+            id="pdfFile"
+            accept=".pdf"
+        >
+
+    </label>
+
+
+
+    <div
+        class="file-name"
+        id="fileName">
+    </div>
+
+
+
+    <div class="password-box">
+
+        <label for="password">
+            PDF Password
+        </label>
+
+        <input
+            type="password"
+            id="password"
+            placeholder="Enter the PDF password"
+        >
+
+    </div>
+
+
+
+    <button
+        class="unlock-button"
+        id="unlockButton"
+        disabled>
+
+        Unlock PDF
+
+    </button>
+
+
+
+    <div
+        class="status"
+        id="status">
+    </div>
+
+
+
+    <div class="info-box">
+
+        <strong>Privacy:</strong>
+        Your selected file is processed in your browser
+        by this first version. PDFfun does not upload it
+        to a server.
+
+    </div>
+
+
+</main>
+
+
+
+<script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js">
+</script>
+
+
+
+<script>
+
+const pdfFile =
+    document.getElementById("pdfFile");
+
+const fileName =
+    document.getElementById("fileName");
+
+const password =
+    document.getElementById("password");
+
+const unlockButton =
+    document.getElementById("unlockButton");
+
+const status =
+    document.getElementById("status");
+
+
+let selectedFile = null;
+
+
+
+/* FILE SELECTION */
+
+pdfFile.addEventListener(
+    "change",
+    function () {
+
+        if (!this.files.length) {
+            return;
+        }
+
+        selectedFile = this.files[0];
+
+        fileName.textContent =
+            "Selected: " + selectedFile.name;
+
+        unlockButton.disabled = false;
+
+        status.textContent = "";
+
+    }
+);
+
+
+
+/* ENABLE BUTTON */
+
+password.addEventListener(
+    "input",
+    function () {
+
+        if (
+            selectedFile &&
+            password.value.trim().length > 0
+        ) {
+
+            unlockButton.disabled = false;
+
+        }
+
+    }
+);
+
+
+
+/* UNLOCK */
+
+unlockButton.addEventListener(
+    "click",
+    async function () {
+
+        if (!selectedFile) {
+            return;
+        }
+
+
+        if (!password.value.trim()) {
+
+            status.className =
+                "status error";
+
+            status.textContent =
+                "Please enter the PDF password.";
+
+            return;
+
+        }
+
+
+        unlockButton.disabled = true;
+
+        status.className =
+            "status";
+
+        status.textContent =
+            "Processing PDF...";
+
+
+        try {
+
+            const bytes =
+                await selectedFile.arrayBuffer();
+
+
+            /*
+             * pdf-lib currently cannot directly
+             * open encrypted PDFs.
+             */
+
+            await PDFLib.PDFDocument.load(
+                bytes,
+                {
+                    password:
+                        password.value
+                }
+            );
+
+
+            status.textContent =
+                "PDF password accepted.";
+
+        }
+
+
+        catch (error) {
+
+            console.error(error);
+
+
+            status.className =
+                "status error";
+
+
+            status.textContent =
+                "This PDF could not be unlocked in the browser. A server-side PDF engine will be required for encrypted PDFs.";
+
+        }
+
+
+        unlockButton.disabled = false;
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Rotate PDF Online Free – Rotate PDF Pages | PDFfun</title>
+
+    <meta name="description"
+          content="Rotate PDF pages online for free with PDFfun. Rotate individual pages or your entire PDF document and download the corrected file.">
+
+    <meta name="robots"
+          content="index, follow">
+
+    <link rel="canonical"
+          href="https://pdffun.pdffun-online.workers.dev/tools/rotate-pdf.html">
+
+    <link rel="stylesheet"
+          href="../css/style.css">
+
+    <link rel="icon"
+          type="image/svg+xml"
+          href="../favicon.svg">
+
+</head>
+
+
+<body>
+
+
+<!-- HEADER -->
+
+<header class="header">
+
+    <div class="logo">
+
+        <span class="logo-icon">
+            P
+        </span>
+
+        <span>
+            PDF<span class="logo-highlight">fun</span>
+        </span>
+
+    </div>
+
+
+    <nav class="navigation">
+
+        <a href="../index.html">
+            Home
+        </a>
+
+        <a href="../index.html#tools">
+            PDF Tools
+        </a>
+
+    </nav>
+
+</header>
+
+
+
+<!-- TOOL -->
+
+<main class="tool-page">
+
+    <div class="tool-container">
+
+
+        <div class="badge">
+            PDF TOOL
+        </div>
+
+
+        <h1>
+            Rotate PDF
+        </h1>
+
+
+        <p>
+            Rotate all pages in your PDF and download the result.
+        </p>
+
+
+        <!-- UPLOAD -->
+
+        <div
+            class="upload-box"
+            onclick="document.getElementById('fileInput').click()">
+
+            <div class="upload-icon">
+                🔄
+            </div>
+
+
+            <h2>
+                Select a PDF file
+            </h2>
+
+
+            <p>
+                Click here to choose your PDF
+            </p>
+
+
+            <input
+                type="file"
+                id="fileInput"
+                accept=".pdf,application/pdf">
+
+        </div>
+
+
+        <!-- FILE INFO -->
+
+        <div
+            id="fileInfo"
+            class="file-info">
+
+            <strong id="fileName"></strong>
+
+            <span id="pageCount"></span>
+
+        </div>
+
+
+        <!-- OPTIONS -->
+
+        <div
+            id="options"
+            class="options">
+
+            <h3>
+                Choose rotation
+            </h3>
+
+
+            <div class="rotation-options">
+
+
+                <div class="rotation-option">
+
+                    <input
+                        type="radio"
+                        id="rotate90"
+                        name="rotation"
+                        value="90"
+                        checked>
+
+                    <label for="rotate90">
+                        ↻ 90°
+                    </label>
+
+                </div>
+
+
+                <div class="rotation-option">
+
+                    <input
+                        type="radio"
+                        id="rotate180"
+                        name="rotation"
+                        value="180">
+
+                    <label for="rotate180">
+                        ↻ 180°
+                    </label>
+
+                </div>
+
+
+                <div class="rotation-option">
+
+                    <input
+                        type="radio"
+                        id="rotate270"
+                        name="rotation"
+                        value="270">
+
+                    <label for="rotate270">
+                        ↺ 270°
+                    </label>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- BUTTON -->
+
+        <button
+            id="rotateButton"
+            class="rotate-button"
+            disabled>
+
+            Rotate PDF
+
+        </button>
+
+
+        <div
+            id="status"
+            class="status">
+        </div>
+
+    </div>
+
+</main>
+
+
+
+<!-- PDF-LIB -->
+
+<script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+
+
+<script>
+
+    const fileInput =
+        document.getElementById(
+            "fileInput"
+        );
+
+
+    const fileInfo =
+        document.getElementById(
+            "fileInfo"
+        );
+
+
+    const fileName =
+        document.getElementById(
+            "fileName"
+        );
+
+
+    const pageCount =
+        document.getElementById(
+            "pageCount"
+        );
+
+
+    const options =
+        document.getElementById(
+            "options"
+        );
+
+
+    const rotateButton =
+        document.getElementById(
+            "rotateButton"
+        );
+
+
+    const status =
+        document.getElementById(
+            "status"
+        );
+
+
+    let selectedFile = null;
+
+
+    /*
+        SELECT PDF
+    */
+
+    fileInput.addEventListener(
+        "change",
+        async function () {
+
+            const file =
+                this.files[0];
+
+
+            if (!file) {
+                return;
+            }
+
+
+            selectedFile =
+                file;
+
+
+            fileName.textContent =
+                file.name;
+
+
+            try {
+
+                const arrayBuffer =
+                    await file.arrayBuffer();
+
+
+                const pdf =
+                    await PDFLib
+                        .PDFDocument
+                        .load(arrayBuffer);
+
+
+                pageCount.textContent =
+                    pdf.getPageCount() +
+                    " page" +
+                    (
+                        pdf.getPageCount() === 1
+                            ? ""
+                            : "s"
+                    );
+
+
+                fileInfo.style.display =
+                    "block";
+
+
+                options.style.display =
+                    "block";
+
+
+                rotateButton.disabled =
+                    false;
+
+
+                status.textContent =
+                    "";
+
+            }
+
+            catch (error) {
+
+                status.textContent =
+                    "Unable to read this PDF.";
+
+            }
+
+        }
+    );
+
+
+    /*
+        ROTATE PDF
+    */
+
+    rotateButton.addEventListener(
+        "click",
+        async function () {
+
+            if (!selectedFile) {
+                return;
+            }
+
+
+            const degrees =
+                parseInt(
+                    document.querySelector(
+                        'input[name="rotation"]:checked'
+                    ).value
+                );
+
+
+            rotateButton.disabled =
+                true;
+
+
+            status.textContent =
+                "Rotating PDF...";
+
+
+            try {
+
+                const arrayBuffer =
+                    await selectedFile.arrayBuffer();
+
+
+                const pdf =
+                    await PDFLib
+                        .PDFDocument
+                        .load(arrayBuffer);
+
+
+                const pages =
+                    pdf.getPages();
+
+
+                pages.forEach(
+                    page => {
+
+                        const currentRotation =
+                            page
+                                .getRotation()
+                                .angle;
+
+
+                        page.setRotation(
+                            PDFLib
+                                .degrees(
+                                    currentRotation +
+                                    degrees
+                                )
+                        );
+
+                    }
+                );
+
+
+                const pdfBytes =
+                    await pdf.save();
+
+
+                const blob =
+                    new Blob(
+                        [pdfBytes],
+                        {
+                            type:
+                                "application/pdf"
+                        }
+                    );
+
+
+                const url =
+                    URL.createObjectURL(
+                        blob
+                    );
+
+
+                const link =
+                    document.createElement(
+                        "a"
+                    );
+
+
+                link.href =
+                    url;
+
+
+                link.download =
+                    "PDFfun-Rotated.pdf";
+
+
+                document.body.appendChild(
+                    link
+                );
+
+
+                link.click();
+
+
+                link.remove();
+
+
+                URL.revokeObjectURL(
+                    url
+                );
+
+
+                status.textContent =
+                    "PDF rotated successfully.";
+
+            }
+
+            catch (error) {
+
+                console.error(error);
+
+
+                status.textContent =
+                    "Unable to rotate this PDF.";
+
+            }
+
+
+            rotateButton.disabled =
+                false;
+
+        }
+    );
+
+</script>
+
+
+</body>
+
+</html>

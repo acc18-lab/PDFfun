@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Merge PDF Online Free – Combine PDF Files | PDFfun</title>
+
+    <meta name="description"
+          content="Merge multiple PDF files into one document online for free with PDFfun. Combine PDF files quickly and easily without installing software.">
+
+    <meta name="robots"
+          content="index, follow">
+
+    <link rel="canonical"
+          href="https://pdffun.pdffun-online.workers.dev/tools/merge-pdf.html">
+
+    <link rel="stylesheet"
+          href="../css/style.css">
+
+    <link rel="icon"
+          type="image/svg+xml"
+          href="../favicon.svg">
+
+</head>
+
+
+<body>
+
+    <!-- HEADER -->
+
+    <header class="header">
+
+        <div class="logo">
+
+            <span class="logo-icon">
+                P
+            </span>
+
+            <span>
+                PDF<span class="logo-highlight">fun</span>
+            </span>
+
+        </div>
+
+        <nav class="navigation">
+
+            <a href="../index.html">
+                Home
+            </a>
+
+            <a href="../index.html#tools">
+                PDF Tools
+            </a>
+
+        </nav>
+
+    </header>
+
+
+    <!-- TOOL -->
+
+    <main class="tool-page">
+
+        <div class="tool-container">
+
+            <div class="badge">
+                PDF TOOL
+            </div>
+
+            <h1>
+                Merge PDF
+            </h1>
+
+            <p>
+                Combine multiple PDF files into one document.
+            </p>
+
+
+            <!-- UPLOAD -->
+
+            <div class="upload-box"
+                 onclick="document.getElementById('fileInput').click()">
+
+                <div class="upload-icon">
+                    📄
+                </div>
+
+                <h2>
+                    Select PDF files
+                </h2>
+
+                <p>
+                    Click here or drag and drop your files
+                </p>
+
+                <input
+                    type="file"
+                    id="fileInput"
+                    accept=".pdf,application/pdf"
+                    multiple
+                >
+
+            </div>
+
+
+            <!-- FILE LIST -->
+
+            <div
+                id="fileList"
+                class="file-list">
+            </div>
+
+
+            <!-- MERGE -->
+
+            <button
+                id="mergeButton"
+                class="merge-button"
+                disabled>
+
+                Merge PDFs
+
+            </button>
+
+
+            <div
+                id="status"
+                class="status">
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <!-- PDF LIBRARY -->
+
+    <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+
+
+    <script>
+
+        const fileInput =
+            document.getElementById("fileInput");
+
+        const fileList =
+            document.getElementById("fileList");
+
+        const mergeButton =
+            document.getElementById("mergeButton");
+
+        const status =
+            document.getElementById("status");
+
+
+        let selectedFiles = [];
+
+
+        /* FILE SELECTION */
+
+        fileInput.addEventListener(
+            "change",
+            function () {
+
+                const files =
+                    Array.from(this.files);
+
+                selectedFiles =
+                    selectedFiles.concat(files);
+
+                displayFiles();
+
+            }
+        );
+
+
+        /* DISPLAY FILES */
+
+        function displayFiles() {
+
+            fileList.innerHTML = "";
+
+            selectedFiles.forEach(
+                (file, index) => {
+
+                    const item =
+                        document.createElement("div");
+
+                    item.className =
+                        "file-item";
+
+
+                    const name =
+                        document.createElement("span");
+
+                    name.className =
+                        "file-name";
+
+                    name.textContent =
+                        (index + 1) +
+                        ". " +
+                        file.name;
+
+
+                    const remove =
+                        document.createElement("button");
+
+                    remove.className =
+                        "remove-file";
+
+                    remove.textContent =
+                        "Remove";
+
+
+                    remove.onclick =
+                        function () {
+
+                            selectedFiles.splice(
+                                index,
+                                1
+                            );
+
+                            displayFiles();
+
+                        };
+
+
+                    item.appendChild(name);
+
+                    item.appendChild(remove);
+
+                    fileList.appendChild(item);
+
+                }
+            );
+
+
+            mergeButton.disabled =
+                selectedFiles.length < 2;
+
+        }
+
+
+        /* MERGE */
+
+        mergeButton.addEventListener(
+            "click",
+            async function () {
+
+                if (selectedFiles.length < 2) {
+
+                    alert(
+                        "Please select at least two PDF files."
+                    );
+
+                    return;
+
+                }
+
+
+                mergeButton.disabled = true;
+
+                status.textContent =
+                    "Merging PDFs...";
+
+
+                try {
+
+                    const mergedPdf =
+                        await PDFLib.PDFDocument.create();
+
+
+                    for (
+                        const file of selectedFiles
+                    ) {
+
+                        const arrayBuffer =
+                            await file.arrayBuffer();
+
+
+                        const pdf =
+                            await PDFLib.PDFDocument.load(
+                                arrayBuffer
+                            );
+
+
+                        const pages =
+                            await mergedPdf.copyPages(
+                                pdf,
+                                pdf.getPageIndices()
+                            );
+
+
+                        pages.forEach(
+                            page => {
+
+                                mergedPdf.addPage(page);
+
+                            }
+                        );
+
+                    }
+
+
+                    const mergedPdfBytes =
+                        await mergedPdf.save();
+
+
+                    const blob =
+                        new Blob(
+                            [mergedPdfBytes],
+                            {
+                                type:
+                                    "application/pdf"
+                            }
+                        );
+
+
+                    const url =
+                        URL.createObjectURL(blob);
+
+
+                    const link =
+                        document.createElement("a");
+
+                    link.href = url;
+
+                    link.download =
+                        "PDFfun-Merged.pdf";
+
+
+                    document.body.appendChild(link);
+
+                    link.click();
+
+                    link.remove();
+
+
+                    URL.revokeObjectURL(url);
+
+
+                    status.textContent =
+                        "PDF merged successfully.";
+
+                }
+
+                catch (error) {
+
+                    console.error(error);
+
+                    status.textContent =
+                        "Something went wrong. Please check your PDF files.";
+
+                }
+
+
+                mergeButton.disabled = false;
+
+            }
+        );
+
+    </script>
+
+</body>
+
+</html>

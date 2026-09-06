@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>PDF to Word Converter Online Free | PDFfun</title>
+
+    <meta name="description"
+          content="Convert PDF files to editable Word documents online with PDFfun. Extract text from PDF files and create Word documents quickly.">
+
+    <meta name="robots"
+          content="index, follow">
+
+    <link rel="canonical"
+          href="https://pdffun.pdffun-online.workers.dev/tools/pdf-to-word.html">
+
+    <link rel="stylesheet"
+          href="../css/style.css">
+
+    <link rel="icon"
+          type="image/svg+xml"
+          href="../favicon.svg">
+
+</head>
+
+
+<body>
+
+
+<!-- HEADER -->
+
+<header class="header">
+
+    <div class="logo">
+
+        <span class="logo-icon">
+            P
+        </span>
+
+        <span>
+            PDF<span class="logo-highlight">fun</span>
+        </span>
+
+    </div>
+
+
+    <nav class="navigation">
+
+        <a href="../index.html">
+            Home
+        </a>
+
+        <a href="../index.html#tools">
+            PDF Tools
+        </a>
+
+    </nav>
+
+</header>
+
+
+
+<!-- TOOL -->
+
+<main class="tool-page">
+
+    <div class="tool-container">
+
+
+        <div class="badge">
+            PDF TOOL
+        </div>
+
+
+        <h1>
+            PDF to Word
+        </h1>
+
+
+        <p>
+            Convert PDF documents into editable Word files.
+        </p>
+
+
+        <!-- UPLOAD -->
+
+        <div
+            class="upload-box"
+            onclick="document.getElementById('fileInput').click()">
+
+            <div class="upload-icon">
+                📄
+            </div>
+
+
+            <h2>
+                Select a PDF file
+            </h2>
+
+
+            <p>
+                Click here to choose your PDF
+            </p>
+
+
+            <input
+                type="file"
+                id="fileInput"
+                accept=".pdf,application/pdf">
+
+        </div>
+
+
+        <!-- FILE INFO -->
+
+        <div
+            id="fileInfo"
+            class="file-info">
+
+            <strong id="fileName"></strong>
+
+            <span id="fileSize"></span>
+
+        </div>
+
+
+        <!-- OPTIONS -->
+
+        <div
+            id="conversionOptions"
+            class="conversion-options">
+
+            <h3>
+                Conversion mode
+            </h3>
+
+
+            <label class="option">
+
+                <input
+                    type="radio"
+                    name="mode"
+                    value="layout"
+                    checked>
+
+                <strong>
+                    Preserve layout
+                </strong>
+
+                <span>
+                    Try to keep the original document structure.
+                </span>
+
+            </label>
+
+
+            <label class="option">
+
+                <input
+                    type="radio"
+                    name="mode"
+                    value="text">
+
+                <strong>
+                    Editable text
+                </strong>
+
+                <span>
+                    Focus on extracting text for easier editing.
+                </span>
+
+            </label>
+
+        </div>
+
+
+        <!-- BUTTON -->
+
+        <button
+            id="convertButton"
+            class="convert-button"
+            disabled>
+
+            Convert to Word
+
+        </button>
+
+
+        <div
+            id="status"
+            class="status">
+        </div>
+
+
+        <div class="info-box">
+
+            PDFfun will use a dedicated conversion engine
+            for PDF-to-Word conversion. This provides much
+            better results than simply renaming a PDF file.
+
+        </div>
+
+    </div>
+
+</main>
+
+
+
+<script>
+
+    const fileInput =
+        document.getElementById(
+            "fileInput"
+        );
+
+
+    const fileInfo =
+        document.getElementById(
+            "fileInfo"
+        );
+
+
+    const fileName =
+        document.getElementById(
+            "fileName"
+        );
+
+
+    const fileSize =
+        document.getElementById(
+            "fileSize"
+        );
+
+
+    const conversionOptions =
+        document.getElementById(
+            "conversionOptions"
+        );
+
+
+    const convertButton =
+        document.getElementById(
+            "convertButton"
+        );
+
+
+    const status =
+        document.getElementById(
+            "status"
+        );
+
+
+    let selectedFile = null;
+
+
+    /*
+        SELECT FILE
+    */
+
+    fileInput.addEventListener(
+        "change",
+        function () {
+
+            const file =
+                this.files[0];
+
+
+            if (!file) {
+                return;
+            }
+
+
+            selectedFile =
+                file;
+
+
+            fileName.textContent =
+                file.name;
+
+
+            fileSize.textContent =
+                "File size: " +
+                formatFileSize(
+                    file.size
+                );
+
+
+            fileInfo.style.display =
+                "block";
+
+
+            conversionOptions.style.display =
+                "block";
+
+
+            convertButton.disabled =
+                false;
+
+
+            status.textContent =
+                "";
+
+        }
+    );
+
+
+    /*
+        CONVERT
+    */
+
+    convertButton.addEventListener(
+        "click",
+        function () {
+
+            if (!selectedFile) {
+                return;
+            }
+
+
+            convertButton.disabled =
+                true;
+
+
+            status.textContent =
+                "PDF-to-Word conversion engine will be connected when we set up the PDFfun backend.";
+
+
+            setTimeout(
+                function () {
+
+                    convertButton.disabled =
+                        false;
+
+                },
+                1000
+            );
+
+        }
+    );
+
+
+    /*
+        FILE SIZE
+    */
+
+    function formatFileSize(bytes) {
+
+        if (
+            bytes < 1024
+        ) {
+
+            return bytes + " B";
+
+        }
+
+
+        if (
+            bytes <
+            1024 * 1024
+        ) {
+
+            return (
+                (
+                    bytes /
+                    1024
+                ).toFixed(1) +
+                " KB"
+            );
+
+        }
+
+
+        return (
+            (
+                bytes /
+                (
+                    1024 *
+                    1024
+                )
+            ).toFixed(2) +
+            " MB"
+        );
+
+    }
+
+</script>
+
+
+</body>
+
+</html>
