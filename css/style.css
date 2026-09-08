@@ -858,4 +858,13 @@ footer {
     .convert-button {
         padding: 14px;
     }
+
+    .seo-intro {
+    max-width: 850px;
+    margin: 20px auto 35px;
+    text-align: center;
+    color: #596273;
+    line-height: 1.8;
+    font-size: 16px;
+    }
 }
